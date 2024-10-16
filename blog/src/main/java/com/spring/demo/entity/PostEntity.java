@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.catalina.User;
 
 @Entity
 @Table(name="post")
@@ -15,7 +16,7 @@ import lombok.Setter;
 public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column
     private String title ;
@@ -23,7 +24,9 @@ public class PostEntity {
     @Column
     private String content ;
 
-    @Column
-    private String author ;
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private UserEntity author ;
+
 
 }

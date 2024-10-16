@@ -13,29 +13,46 @@ import java.util.List;
 
 @RestController
 @PropertySource("classpath:application.properties") //lay du lieu tu application.properties
+@RequestMapping("/api")
 public class PostController {
 
     @Autowired
     private PostService postService;
 
-    @PostMapping("/api/post")
+    @PostMapping("/create-post")
     public ResponseEntity<String> createPost(@RequestBody PostDTO post){
-        PostEntity postEntity = new PostEntity();
-        postEntity.setTitle(post.getTitle());
-        postEntity.setContent(post.getContent());
-        postService.createPost(postEntity);
-        return new ResponseEntity<>("Post ok: " + postEntity.getId(), HttpStatus.CREATED) ;
+        PostEntity postEntity = postService.createPost(post);
+        return new ResponseEntity<>("Post: " + postEntity.getId(), HttpStatus.CREATED) ;
     }
 
-    @GetMapping("/api/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<PostEntity> getPostById(@PathVariable("id") Long id){
         PostEntity result = postService.getPost(id);
 
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/api/all-post")
+    @GetMapping("/all-post")
     public List<PostEntity> getAllPost(){
         return postService.getAllPost();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updatePost(@PathVariable("id") Long id
+                                            ,@RequestBody PostDTO postDTO){
+        PostEntity result = postService.updatePost(id, postDTO);
+        return new ResponseEntity<>("Post: " + result, HttpStatus.CREATED) ;
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable("id") Long id){
+        postService.deletePost(id);
+        return  ResponseEntity.ok("delete success");
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteAllPost(){
+        postService.deleteAllPost();
+        return  ResponseEntity.ok("delete success");
     }
 }
