@@ -1,10 +1,8 @@
 package com.spring.demo.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
@@ -13,30 +11,31 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE) //gia tri private
 @Table(name = "user")
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    long id;
 
     @Column
-    private String username;
+    String username;
 
     @Column
-    private int age;
+    int age;
+    @Column
+    String address;
+    @Column
+    String phoneNumber;
+    @Column
+    String email;
 
     @Column
-    private String address;
-    @Column
-    private String phoneNumber;
-    @Column
-    private String email;
-
-    @Column
-    private String password;
+    String password;
 
     @OneToMany(mappedBy = "author")
-    private List<PostEntity> posts;
+    List<PostEntity> posts;
 
 }

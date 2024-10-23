@@ -13,20 +13,20 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDTO {
-    private int id;
+    private long id;
 
-    @Size(min = 6, message = "User name must be at least 6 character.")
+    @Size(min = 6, message = "USERNAME_INVALID")
     private String username;
     private int age;
     private String address;
 
-    @Size(min = 10, max = 10, message = "Phone number must be at 10 character." )
+    @Size(min = 10, max = 10, message = "PHONE_NUMBER_INVALID" )
     private String phoneNumber;
 
     @Email
     private String email;
 
-    @Size(min = 8, message = "Password must be at least 8 character.")
+    @Size(min = 8, message = "PASSWORD_INVALID")
     private String password;
 
 }
