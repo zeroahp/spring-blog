@@ -21,7 +21,7 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @PostMapping("/{userId}/create-post")
+    @PostMapping("/{userId}/post-create")
     public ApiResponse<PostDTO> createPost(@RequestBody PostRequest postRequest, @PathVariable("userId") Long userId){
 
         ApiResponse apiResponse = new ApiResponse();
@@ -30,33 +30,32 @@ public class PostController {
     }
 
     @GetMapping("/post/{id}")
-    public ResponseEntity<PostEntity> getPostById(@PathVariable("id") Long id){
-        PostEntity result = postService.getPost(id);
-
-        return ResponseEntity.ok(result);
+    public ResponseEntity<PostDTO> getPostById(@PathVariable("id") Long id){
+        return ResponseEntity.ok(postService.getPost(id));
     }
 
     @GetMapping("/{userId}/all-post")
-    public List<PostEntity> getPostByUserId(@PathVariable Long userId){
+    public List<PostDTO> getPostByUserId(@PathVariable Long userId){
         return postService.getPostByAuthorId(userId);
     }
 
-//    @PutMapping("/update/{id}")
-//    public ResponseEntity<String> updatePost(@PathVariable("id") Long id
-//                                            ,@RequestBody PostDTO postDTO){
-//        PostEntity result = postService.updatePost(id, postDTO);
-//        return new ResponseEntity<>("Post: " + result, HttpStatus.CREATED) ;
-//    }
+    @PutMapping("/{userId}/post-update/{postId}")
+    public PostDTO updatePost(@PathVariable("postId") Long postId,
+                                           @PathVariable("userId") Long userId
+                                            ,@RequestBody PostRequest postRequest){
 
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<String> deletePost(@PathVariable("id") Long id){
-//        postService.deletePost(id);
-//        return  ResponseEntity.ok("delete success");
-//    }
+        return postService.updatePost(postRequest, postId, userId) ;
+    }
+
+    @DeleteMapping("/post/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable("id") Long id){
+        postService.detelePostById(id);
+        return  ResponseEntity.ok("Delete success");
+    }
 
 //    @DeleteMapping("/delete")
 //    public ResponseEntity<String> deleteAllPost(){
 //        postService.deleteAllPost();
-//        return  ResponseEntity.ok("delete success");
+//        return  ResponseEntity.ok("delete succsess");
 //    }
 }

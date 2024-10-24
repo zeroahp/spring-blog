@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -30,10 +31,10 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public PostDTO createPost(PostRequest postRequest, Long userId) {
+    public PostDTO createPost(PostRequest postRequest, Long authorId) {
 
-        UserEntity userEntity = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException(userId + "User does not exists"));
+        UserEntity userEntity = userRepository.findById(authorId)
+                .orElseThrow(() -> new RuntimeException(authorId + "User does not exists"));
 
         //mapping
         PostEntity postEntity = PostEntity.builder()
@@ -53,32 +54,38 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostEntity getPost(Long id) {
-        return postRepository.findById(id)
+    public PostDTO getPost(Long id) {
+        PostEntity postEntity = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(id + "This does not exists"));
 
+        PostDTO postDTO = postMapper.toPostDTO(postEntity);
+        return postDTO;
     }
 
     @Override
-    public List<PostEntity> getPostByAuthorId(Long authorId) {
-     return postRepository.findByAuthorId(authorId);
+    public List<PostDTO> getPostByAuthorId(Long authorId) {
+        List<PostEntity> postEntities =  postRepository.findByAuthorId(authorId);
+        List<PostDTO> postDTOS = postMapper.toPostDTOList(postEntities);
+        return postDTOS;
     }
 
 
     @Override
-    public PostEntity updatePost(Long id, PostRequest postRequest) {
-        if(postRepository.findById(id).isPresent()){
-            PostEntity newPost = new PostEntity();
-            newPost.setId(id);
-            newPost.setTitle(postRequest.getTitle());
-            newPost.setContent(postRequest.getContent());
-            return postRepository.save(newPost);
-        }else {
-            throw new RuntimeException(id + "This does not exists");
-        }
+    public PostDTO updatePost(PostRequest postRequest, Long postId, Long authorId) {
+
+        UserEntity userEntity = userRepository.findById(authorId).orElseThrow(() -> new RuntimeException(authorId + "Author does not exists"));
+        PostEntity postEntity = postRepository.findById(postId).orElseThrow(() -> new RuntimeException(postId + "Post does not exists"));
+
+        postEntity.setTitle(postRequest.getTitle());
+        postEntity.setContent(postRequest.getContent());
+
+        PostEntity updatedPostEntity = postRepository.save(postEntity);
+        return postMapper.toPostDTO(updatedPostEntity);
     }
+
+
     @Override
-    public void deletePost(Long id) {
+    public void detelePostById(Long id) {
         if(postRepository.findById(id).isPresent()){
             postRepository.deleteById(id);
         }else {
@@ -86,10 +93,7 @@ public class PostServiceImpl implements PostService {
         }
     }
 
-    @Override
-    public void deleteAllPost() {
-        postRepository.deleteAll();
-    }
+
 
 
 }

@@ -10,8 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PostDTO {
 
-   private int id;
+   private Long id;
    private String title;
    private String content;
    private String authorName;
+//   private String author_id;
 }
