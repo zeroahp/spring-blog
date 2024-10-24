@@ -1,5 +1,6 @@
 package com.spring.demo.controller;
 
+import com.spring.demo.model.dto.UserDTO;
 import com.spring.demo.model.entity.UserEntity;
 import com.spring.demo.model.request.ApiResponse;
 import com.spring.demo.model.request.UserRequest;
@@ -17,16 +18,19 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    ApiResponse<UserEntity> register(@RequestBody @Valid UserRequest userRequest) {
-        ApiResponse<UserEntity> apiResponse = new ApiResponse<>();
+    ApiResponse<UserDTO> register(@RequestBody @Valid UserRequest userRequest) {
+        ApiResponse<UserDTO> apiResponse = new ApiResponse<>();
         apiResponse.setData(userService.registerUser(userRequest));
         return apiResponse;
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<UserEntity> getUser(@PathVariable("id") Long id){
-        UserEntity userEntity = userService.findUserById(id);
-        return ResponseEntity.ok(userEntity);
+    public ApiResponse<UserDTO> getUser(@PathVariable("id") Long id){
+
+        ApiResponse<UserDTO> apiResponse = new ApiResponse<>();
+        apiResponse.setData(userService.findUserById(id));
+
+        return apiResponse;
     }
 
 

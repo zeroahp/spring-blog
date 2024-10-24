@@ -1,5 +1,7 @@
 package com.spring.demo.service.impl;
 
+import com.spring.demo.mapper.UserMapper;
+import com.spring.demo.model.dto.UserDTO;
 import com.spring.demo.model.entity.UserEntity;
 import com.spring.demo.exception.AppException;
 import com.spring.demo.exception.ErrorCode;
@@ -17,8 +19,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
-    public UserEntity registerUser(UserRequest user) {
+    public UserDTO registerUser(UserRequest user) {
 
         if(userRepository.existsByUsername(user.getUsername())){
             throw new AppException(ErrorCode.USER_EXISTED);
@@ -30,16 +35,18 @@ public class UserServiceImpl implements UserService {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .build();
-//        userEntity.setUsername(user.getUsername());
-//        userEntity.setPassword(user.getPassword());
-//        userEntity.setEmail(user.getEmail());
 
-        return userRepository.save(userEntity);
+        UserEntity savedUserEntity = userRepository.save(userEntity);
+//        UserDTO userDTO = userMapper.toUserDTO(savedUserEntity);
+        return userMapper.toUserDTO(savedUserEntity);
     }
 
     @Override
-    public UserEntity findUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException(id + "This does not exists"));
+    public UserDTO findUserById(Long id) {
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException(id + "This does not exists"));
+
+        return userMapper.toUserDTO(userEntity);
     }
 
 

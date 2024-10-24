@@ -1,5 +1,6 @@
 package com.spring.demo.service;
 
+import com.spring.demo.model.dto.PostDTO;
 import com.spring.demo.model.entity.PostEntity;
 import com.spring.demo.model.request.PostRequest;
 
@@ -7,7 +8,7 @@ import java.util.List;
 
 public interface PostService {
 
-    PostEntity createPost(PostRequest postRequest, Long userId);
+    PostDTO createPost(PostRequest postRequest, Long userId);
     PostEntity getPost(Long id);
     List<PostEntity> getPostByAuthorId(Long authorId);
 

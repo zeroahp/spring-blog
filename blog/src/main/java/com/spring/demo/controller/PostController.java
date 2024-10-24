@@ -1,6 +1,8 @@
 package com.spring.demo.controller;
 
+import com.spring.demo.model.dto.PostDTO;
 import com.spring.demo.model.entity.PostEntity;
+import com.spring.demo.model.request.ApiResponse;
 import com.spring.demo.model.request.PostRequest;
 import com.spring.demo.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,14 @@ public class PostController {
     private PostService postService;
 
     @PostMapping("/{userId}/create-post")
-    public ResponseEntity<String> createPost(@RequestBody PostRequest post, @PathVariable("userId") Long userId){
-        PostEntity postEntity = postService.createPost(post, userId);
-        return new ResponseEntity<>("Post: " + postEntity.getId(), HttpStatus.CREATED) ;
+    public ApiResponse<PostDTO> createPost(@RequestBody PostRequest postRequest, @PathVariable("userId") Long userId){
+
+        ApiResponse apiResponse = new ApiResponse();
+        apiResponse.setData(postService.createPost(postRequest, userId));
+        return apiResponse ;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/post/{id}")
     public ResponseEntity<PostEntity> getPostById(@PathVariable("id") Long id){
         PostEntity result = postService.getPost(id);
 

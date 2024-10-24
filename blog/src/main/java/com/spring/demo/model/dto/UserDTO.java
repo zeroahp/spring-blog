@@ -26,7 +26,7 @@ public class UserDTO {
     @Email
     private String email;
 
-    @Size(min = 8, message = "PASSWORD_INVALID")
-    private String password;
+//    @Size(min = 8, message = "PASSWORD_INVALID")
+//    private String password;
 
 }

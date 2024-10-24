@@ -13,5 +13,5 @@ public class PostDTO {
    private int id;
    private String title;
    private String content;
-   private String author;
+   private String authorName;
 }

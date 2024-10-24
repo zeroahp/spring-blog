@@ -1,5 +1,7 @@
 package com.spring.demo.service.impl;
 
+import com.spring.demo.mapper.PostMapper;
+import com.spring.demo.model.dto.PostDTO;
 import com.spring.demo.model.entity.PostEntity;
 import com.spring.demo.model.entity.UserEntity;
 import com.spring.demo.model.request.PostRequest;
@@ -23,24 +25,30 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PostMapper postMapper;
+
 
     @Override
-    public PostEntity createPost(PostRequest postRequest, Long userId) {
+    public PostDTO createPost(PostRequest postRequest, Long userId) {
 
         UserEntity userEntity = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException(userId + "User does not exists"));
 
+        //mapping
         PostEntity postEntity = PostEntity.builder()
                 .author(userEntity)
                 .title(postRequest.getTitle())
                 .content(postRequest.getContent())
                 .build();
 
-
         if (postRepository.count() == 0){
             postEntity.setId(1L);
         }
-        return postRepository.save(postEntity);
+
+        //update ID
+        PostEntity postEntitySaved = postRepository.save(postEntity);
+        return postMapper.toPostDTO(postEntitySaved);
 
     }
 
