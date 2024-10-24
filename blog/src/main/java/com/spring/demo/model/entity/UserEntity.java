@@ -1,4 +1,4 @@
-package com.spring.demo.entity;
+package com.spring.demo.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,7 +15,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE) //gia tri private
 @Table(name = "user")
 public class UserEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
@@ -25,10 +24,13 @@ public class UserEntity {
 
     @Column
     int age;
+
     @Column
     String address;
+
     @Column
     String phoneNumber;
+
     @Column
     String email;
 

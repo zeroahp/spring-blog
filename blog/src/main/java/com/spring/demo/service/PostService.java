@@ -1,16 +1,17 @@
 package com.spring.demo.service;
 
-import com.spring.demo.entity.PostEntity;
-import com.spring.demo.model.PostDTO;
+import com.spring.demo.model.entity.PostEntity;
+import com.spring.demo.model.request.PostRequest;
 
 import java.util.List;
 
 public interface PostService {
 
-    PostEntity createPost(PostDTO postDTO);
+    PostEntity createPost(PostRequest postRequest, Long userId);
     PostEntity getPost(Long id);
-    List<PostEntity> getAllPost();
-    PostEntity updatePost(Long id, PostDTO postDTO);
+    List<PostEntity> getPostByAuthorId(Long authorId);
+
+    PostEntity updatePost(Long id, PostRequest postRequest);
     void deletePost(Long id);
     void deleteAllPost();
 }

@@ -1,7 +1,7 @@
 package com.spring.demo.controller;
 
-import com.spring.demo.entity.PostEntity;
-import com.spring.demo.model.PostDTO;
+import com.spring.demo.model.entity.PostEntity;
+import com.spring.demo.model.request.PostRequest;
 import com.spring.demo.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -19,9 +19,9 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @PostMapping("/create-post")
-    public ResponseEntity<String> createPost(@RequestBody PostDTO post){
-        PostEntity postEntity = postService.createPost(post);
+    @PostMapping("/{userId}/create-post")
+    public ResponseEntity<String> createPost(@RequestBody PostRequest post, @PathVariable("userId") Long userId){
+        PostEntity postEntity = postService.createPost(post, userId);
         return new ResponseEntity<>("Post: " + postEntity.getId(), HttpStatus.CREATED) ;
     }
 
@@ -32,27 +32,27 @@ public class PostController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/all-post")
-    public List<PostEntity> getAllPost(){
-        return postService.getAllPost();
+    @GetMapping("/{userId}/all-post")
+    public List<PostEntity> getPostByUserId(@PathVariable Long userId){
+        return postService.getPostByAuthorId(userId);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<String> updatePost(@PathVariable("id") Long id
-                                            ,@RequestBody PostDTO postDTO){
-        PostEntity result = postService.updatePost(id, postDTO);
-        return new ResponseEntity<>("Post: " + result, HttpStatus.CREATED) ;
-    }
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity<String> updatePost(@PathVariable("id") Long id
+//                                            ,@RequestBody PostDTO postDTO){
+//        PostEntity result = postService.updatePost(id, postDTO);
+//        return new ResponseEntity<>("Post: " + result, HttpStatus.CREATED) ;
+//    }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable("id") Long id){
-        postService.deletePost(id);
-        return  ResponseEntity.ok("delete success");
-    }
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<String> deletePost(@PathVariable("id") Long id){
+//        postService.deletePost(id);
+//        return  ResponseEntity.ok("delete success");
+//    }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteAllPost(){
-        postService.deleteAllPost();
-        return  ResponseEntity.ok("delete success");
-    }
+//    @DeleteMapping("/delete")
+//    public ResponseEntity<String> deleteAllPost(){
+//        postService.deleteAllPost();
+//        return  ResponseEntity.ok("delete success");
+//    }
 }

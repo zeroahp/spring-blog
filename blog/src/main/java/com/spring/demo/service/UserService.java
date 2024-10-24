@@ -1,14 +1,14 @@
 package com.spring.demo.service;
 
-import com.spring.demo.entity.UserEntity;
-import com.spring.demo.model.UserDTO;
+import com.spring.demo.model.entity.UserEntity;
+import com.spring.demo.model.request.UserRequest;
 
 import java.util.List;
 
 public interface UserService {
-    UserEntity registerUser(UserDTO user);
+    UserEntity registerUser(UserRequest user);
     UserEntity loginUser(UserEntity user);
-    UserEntity updateUser(Long id, UserDTO user);
+    UserEntity updateUser(Long id, UserRequest user);
     UserEntity deleteUser(Long id);
     UserEntity findUserById(Long id);
     List<UserEntity> findAllUsers();

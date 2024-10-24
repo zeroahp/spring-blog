@@ -1,8 +1,8 @@
 package com.spring.demo.controller;
 
-import com.spring.demo.entity.UserEntity;
-import com.spring.demo.model.ApiResponse;
-import com.spring.demo.model.UserDTO;
+import com.spring.demo.model.entity.UserEntity;
+import com.spring.demo.model.request.ApiResponse;
+import com.spring.demo.model.request.UserRequest;
 import com.spring.demo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,9 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    ApiResponse<UserEntity> register(@RequestBody @Valid UserDTO userDTO) {
+    ApiResponse<UserEntity> register(@RequestBody @Valid UserRequest userRequest) {
         ApiResponse<UserEntity> apiResponse = new ApiResponse<>();
-        apiResponse.setData(userService.registerUser(userDTO));
+        apiResponse.setData(userService.registerUser(userRequest));
         return apiResponse;
     }
 

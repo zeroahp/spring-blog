@@ -1,9 +1,9 @@
 package com.spring.demo.service.impl;
 
-import com.spring.demo.entity.UserEntity;
+import com.spring.demo.model.entity.UserEntity;
 import com.spring.demo.exception.AppException;
 import com.spring.demo.exception.ErrorCode;
-import com.spring.demo.model.UserDTO;
+import com.spring.demo.model.request.UserRequest;
 import com.spring.demo.repository.UserRepository;
 import com.spring.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public UserEntity registerUser(UserDTO user) {
+    public UserEntity registerUser(UserRequest user) {
 
         if(userRepository.existsByUsername(user.getUsername())){
             throw new AppException(ErrorCode.USER_EXISTED);
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserEntity updateUser(Long id, UserDTO user) {
+    public UserEntity updateUser(Long id, UserRequest user) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new RuntimeException(id + "This does not exists"));
         userEntity.setUsername(user.getUsername());
         userEntity.setPassword(user.getPassword());

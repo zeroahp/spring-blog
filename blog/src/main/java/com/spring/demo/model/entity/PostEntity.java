@@ -1,16 +1,13 @@
-package com.spring.demo.entity;
+package com.spring.demo.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.apache.catalina.User;
+import lombok.*;
 
 @Entity
 @Table(name="post")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostEntity {
