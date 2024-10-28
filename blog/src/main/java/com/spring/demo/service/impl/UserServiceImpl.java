@@ -9,6 +9,8 @@ import com.spring.demo.model.request.UserRequest;
 import com.spring.demo.repository.UserRepository;
 import com.spring.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,12 +31,16 @@ public class UserServiceImpl implements UserService {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
 
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+//
 
         UserEntity userEntity = UserEntity.builder()
                 .username(user.getUsername())
                 .email(user.getEmail())
-                .password(user.getPassword())
+                .password(passwordEncoder.encode(user.getPassword()))
                 .build();
+
+
 
         UserEntity savedUserEntity = userRepository.save(userEntity);
         return userMapper.toUserDTO(savedUserEntity);
@@ -51,19 +57,20 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserEntity updateUser(Long id, UserRequest user) {
+    public UserDTO updateUser(Long id, UserRequest user) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new RuntimeException(id + "This does not exists"));
         userEntity.setUsername(user.getUsername());
         userEntity.setPassword(user.getPassword());
         userEntity.setEmail(user.getEmail());
         userRepository.save(userEntity);
-        return  userRepository.save(userEntity);
+        return  userMapper.toUserDTO(userRepository.save(userEntity));
 
     }
 
     @Override
-    public UserEntity deleteUser(Long id) {
-        return null;
+    public void deleteUser(Long userId) {
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("This does not exists"));
+        userRepository.deleteById(userId);
     }
 
 

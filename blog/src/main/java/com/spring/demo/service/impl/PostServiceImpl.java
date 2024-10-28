@@ -54,9 +54,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDTO getPost(Long id) {
-        PostEntity postEntity = postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(id + "This does not exists"));
+    public PostDTO getPost(Long postId) {
+        PostEntity postEntity = postRepository.findById(postId)
+                .orElseThrow(() -> new RuntimeException(postId + "Post does not exists"));
 
         PostDTO postDTO = postMapper.toPostDTO(postEntity);
         return postDTO;
@@ -64,9 +64,14 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDTO> getPostByAuthorId(Long authorId) {
-        List<PostEntity> postEntities =  postRepository.findByAuthorId(authorId);
-        List<PostDTO> postDTOS = postMapper.toPostDTOList(postEntities);
-        return postDTOS;
+        if(userRepository.findById(authorId).isPresent()){
+            List<PostEntity> postEntities =  postRepository.findByAuthorId(authorId);
+            List<PostDTO> postDTOS = postMapper.toPostDTOList(postEntities);
+            return postDTOS;
+        }else {
+            throw new RuntimeException(authorId + "Author does not exists");
+        }
+
     }
 
 

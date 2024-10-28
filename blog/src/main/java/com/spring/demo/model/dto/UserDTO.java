@@ -15,12 +15,10 @@ import lombok.Setter;
 public class UserDTO {
     private long id;
 
-    @Size(min = 6, message = "USERNAME_INVALID")
     private String username;
     private int age;
     private String address;
 
-    @Size(min = 10, max = 10, message = "PHONE_NUMBER_INVALID" )
     private String phoneNumber;
 
     @Email

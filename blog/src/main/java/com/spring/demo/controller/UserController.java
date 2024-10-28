@@ -1,13 +1,11 @@
 package com.spring.demo.controller;
 
 import com.spring.demo.model.dto.UserDTO;
-import com.spring.demo.model.entity.UserEntity;
 import com.spring.demo.model.request.ApiResponse;
 import com.spring.demo.model.request.UserRequest;
 import com.spring.demo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
