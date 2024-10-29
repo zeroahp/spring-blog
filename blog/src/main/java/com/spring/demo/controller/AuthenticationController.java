@@ -2,13 +2,13 @@ package com.spring.demo.controller;
 
 
 import com.spring.demo.model.dto.AuthenticationDTO;
-import com.spring.demo.model.dto.UserDTO;
-import com.spring.demo.model.request.ApiResponse;
+import com.spring.demo.model.dto.ApiResponse;
+import com.spring.demo.model.dto.IntrospectResponse;
 import com.spring.demo.model.request.AuthenticationRequest;
+import com.spring.demo.model.request.IntrospectRequest;
 import com.spring.demo.service.AuthenticationServiceImpl;
 import com.spring.demo.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +31,17 @@ public class AuthenticationController {
 
         //SetData
         return ApiResponse.<AuthenticationDTO>builder()
+                .data(result)
+                .build();
+
+    }
+
+    @PostMapping("/introspect")
+    ApiResponse<IntrospectResponse> introspectToken(@RequestBody IntrospectRequest request) {
+
+        var result = authenticationServiceImpl.introspectToken(request);
+
+        return ApiResponse.<IntrospectResponse>builder()
                 .data(result)
                 .build();
 

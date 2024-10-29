@@ -1,7 +1,7 @@
 package com.spring.demo.controller;
 
 import com.spring.demo.model.dto.UserDTO;
-import com.spring.demo.model.request.ApiResponse;
+import com.spring.demo.model.dto.ApiResponse;
 import com.spring.demo.model.request.UserRequest;
 import com.spring.demo.service.UserService;
 import jakarta.validation.Valid;

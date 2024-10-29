@@ -1,10 +1,8 @@
 package com.spring.demo.controller;
 
 import com.spring.demo.model.dto.PostDTO;
-import com.spring.demo.model.request.ApiResponse;
 import com.spring.demo.model.request.PostRequest;
 import com.spring.demo.service.PostService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
