@@ -1,7 +1,9 @@
 package com.spring.demo.controller;
 
 
+import com.spring.demo.model.dto.AuthenticationDTO;
 import com.spring.demo.model.dto.UserDTO;
+import com.spring.demo.model.request.ApiResponse;
 import com.spring.demo.model.request.AuthenticationRequest;
 import com.spring.demo.service.AuthenticationServiceImpl;
 import com.spring.demo.service.impl.UserServiceImpl;
@@ -23,12 +25,15 @@ public class AuthenticationController {
     UserServiceImpl userServiceImpl;
 
     @PostMapping("/log-in")
-    ResponseEntity login(@RequestBody AuthenticationRequest authenticationRequest) {
+    ApiResponse<AuthenticationDTO> login(@RequestBody AuthenticationRequest authenticationRequest) {
 
-        long userId = authenticationServiceImpl.authenticate(authenticationRequest);
-        UserDTO user = userServiceImpl.findUserById(userId);
+        var result = authenticationServiceImpl.authenticate(authenticationRequest);
 
-        return ResponseEntity.ok("Login success.");
+        //SetData
+        return ApiResponse.<AuthenticationDTO>builder()
+                .data(result)
+                .build();
+
     }
 
 

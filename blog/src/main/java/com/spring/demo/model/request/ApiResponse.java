@@ -1,16 +1,16 @@
 package com.spring.demo.model.request;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
 @Setter
 @Getter
-//@Builder
-//@JsonInclude(JsonInclude.Include.NON_NULL)
-
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse<T> {
-     private int code;
+    private int code;
     private String msg;
     private T data;
 }

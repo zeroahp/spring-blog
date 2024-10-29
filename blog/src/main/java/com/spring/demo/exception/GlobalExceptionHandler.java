@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ApiResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         //Phương thức này lấy thông điệp lỗi mặc định từ ngoại lệ, là chuỗi được xác
-        // định trong annotation của trường bị lỗi, ví dụ như "USERNAME_INVALID".
+        //định trong annotation của trường bị lỗi, ví dụ như "USERNAME_INVALID".
         String enumKey = exception.getFieldError().getDefaultMessage();
 
         //chuyển đổi chuỗi thông điệp lỗi
