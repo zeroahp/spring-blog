@@ -77,5 +77,6 @@ public class JWTNimbusd
                 .valid(verified && expirationTime.after(new Date()))
                 .build();
 
+
     }
 }

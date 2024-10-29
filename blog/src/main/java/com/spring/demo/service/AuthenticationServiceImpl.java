@@ -2,8 +2,6 @@ package com.spring.demo.service;
 
 
 import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.JWSVerifier;
-import com.nimbusds.jose.crypto.MACVerifier;
 import com.spring.demo.exception.AppException;
 import com.spring.demo.exception.ErrorCode;
 import com.spring.demo.model.dto.AuthenticationDTO;
@@ -27,7 +25,18 @@ public class AuthenticationServiceImpl {
     @Autowired
     UserRepository userRepository;
 
-    private final JWTNimbusd jwtNimbusd;
+    @Autowired
+    JWTNimbusd jwtNimbusd;
+
+    public IntrospectResponse introspectToken(IntrospectRequest token){
+        try {
+            return jwtNimbusd.introspectToken(token);
+        } catch (JOSEException e) {
+            throw new RuntimeException(e);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public AuthenticationDTO authenticate(AuthenticationRequest userRequest) {
         var user =  userRepository.findByUsername(userRequest.getUsername())
@@ -48,15 +57,7 @@ public class AuthenticationServiceImpl {
     }
 
 
-    public IntrospectResponse introspectToken(IntrospectRequest token){
-        try {
-            return jwtNimbusd.introspectToken(token);
-        } catch (JOSEException e) {
-            throw new RuntimeException(e);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
 }
 
