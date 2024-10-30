@@ -13,10 +13,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig
 {
+    private final String[] GET_PUBLIC_ENDPOINT = {"/api/post/**"};
+    private final String[] POST_PUBLIC_ENDPOINT = {"/api/register"};
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, "/api/register").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/post/**").permitAll()
+        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
+                .requestMatchers(HttpMethod.GET, GET_PUBLIC_ENDPOINT).permitAll()
                 .anyRequest().authenticated());
 
         //tat cau hinh bao ve enpoint
