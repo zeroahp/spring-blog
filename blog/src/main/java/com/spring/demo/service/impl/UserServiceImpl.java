@@ -40,13 +40,12 @@ public class UserServiceImpl implements UserService {
                 .build();
 
 
-
         UserEntity savedUserEntity = userRepository.save(userEntity);
         return userMapper.toUserDTO(savedUserEntity);
     }
 
     @Override
-    public UserDTO findUserById(Long id) {
+    public UserDTO findUserById(String id) {
         UserEntity userEntity = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(id + "This does not exists"));
 
@@ -56,7 +55,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserDTO updateUser(Long id, UserRequest user) {
+    public UserDTO updateUser(String id, UserRequest user) {
         UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new RuntimeException(id + "This does not exists"));
         userEntity.setUsername(user.getUsername());
         userEntity.setPassword(user.getPassword());
@@ -67,7 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long userId) {
+    public void deleteUser(String userId) {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("This does not exists"));
         userRepository.deleteById(userId);
     }

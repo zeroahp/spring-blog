@@ -21,7 +21,8 @@ public class PostController {
     private PostService postService;
 
     @PostMapping("/{userId}/post-create")
-    ApiResponse<PostDTO> createPost(@RequestBody @Valid PostRequest postRequest, @PathVariable("userId") Long userId){
+    ApiResponse<PostDTO> createPost(@RequestBody @Valid PostRequest postRequest,
+                                    @PathVariable("userId") String userId){
 
         ApiResponse apiResponse = new ApiResponse<>();
         apiResponse.setData(postService.createPost(postRequest, userId));
@@ -30,25 +31,25 @@ public class PostController {
 
 
     @GetMapping("/post/{id}")
-    public ResponseEntity<PostDTO> getPostById(@PathVariable("id") Long id){
+    public ResponseEntity<PostDTO> getPostById(@PathVariable("id") String id){
         return ResponseEntity.ok(postService.getPost(id));
     }
 
     @GetMapping("/{userId}/all-post")
-    public List<PostDTO> getPostByUserId(@PathVariable Long userId){
+    public List<PostDTO> getPostByUserId(@PathVariable String userId){
         return postService.getPostByAuthorId(userId);
     }
 
     @PutMapping("/{userId}/post-update/{postId}")
-    public PostDTO updatePost(@PathVariable("postId") Long postId,
-                                           @PathVariable("userId") Long userId
+    public PostDTO updatePost(@PathVariable("postId") String postId,
+                                           @PathVariable("userId") String userId
                                             ,@RequestBody PostRequest postRequest){
 
         return postService.updatePost(postRequest, postId, userId) ;
     }
 
     @DeleteMapping("/post/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable("id") Long id){
+    public ResponseEntity<String> deletePost(@PathVariable("id") String id){
         postService.detelePostById(id);
         return  ResponseEntity.ok("Delete success");
     }

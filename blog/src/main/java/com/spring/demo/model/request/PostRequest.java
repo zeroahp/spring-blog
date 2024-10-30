@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PostRequest {
 
-   private Long id;
+   private String id;
 
    @Size(min = 10, max = 60, message = "TITLE_INVALID")
    private String title;

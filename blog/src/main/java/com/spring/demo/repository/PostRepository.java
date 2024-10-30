@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PostRepository extends JpaRepository<PostEntity, Long> {
+public interface PostRepository extends JpaRepository<PostEntity,String > {
     PostEntity findByTitle(String title);
-    List<PostEntity> findByAuthorId(Long author);
-    void deleteById(Long Id);
+    List<PostEntity> findByAuthorId(String author);
+    void deleteById(String Id);
 
 }

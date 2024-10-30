@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserRequest {
-    private long id;
+    private String id;
 
     @Size(min = 6, message = "USERNAME_INVALID")
     private String username;

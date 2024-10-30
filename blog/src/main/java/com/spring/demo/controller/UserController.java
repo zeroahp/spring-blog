@@ -24,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ApiResponse<UserDTO> getUser(@PathVariable("id") Long id){
+    public ApiResponse<UserDTO> getUser(@PathVariable("id") String id){
 
         ApiResponse<UserDTO> apiResponse = new ApiResponse<>();
         apiResponse.setData(userService.findUserById(id));

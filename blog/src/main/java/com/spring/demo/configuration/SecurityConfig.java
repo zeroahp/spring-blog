@@ -37,6 +37,7 @@ public class SecurityConfig
         httpSecurity.authorizeHttpRequests(request -> request.anyRequest().permitAll());
 
         //Allow access when a valid token is provided.
+
         //when get "/api/user/2"
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2.jwt((jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder()))));
         //tat cau hinh bao ve enpoint

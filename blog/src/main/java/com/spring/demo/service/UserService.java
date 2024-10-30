@@ -9,10 +9,10 @@ import java.util.List;
 public interface UserService {
     UserDTO registerUser(UserRequest user);
     UserEntity loginUser(UserEntity user);
-    UserDTO updateUser(Long userId, UserRequest user);
-    void deleteUser(Long userId);
+    UserDTO updateUser(String userId, UserRequest user);
+    void deleteUser(String userId);
     void deleteAllUsers();
-    UserDTO findUserById(Long id);
+    UserDTO findUserById(String id);
     List<UserEntity> findAllUsers();
 
 }
