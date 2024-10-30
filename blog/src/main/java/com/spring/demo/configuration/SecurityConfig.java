@@ -22,6 +22,9 @@ public class SecurityConfig
                 .requestMatchers(HttpMethod.GET, GET_PUBLIC_ENDPOINT).permitAll()
                 .anyRequest().authenticated());
 
+        //cho phep truy cap khi cung cap token hop le
+
+
         //tat cau hinh bao ve enpoint
         httpSecurity.csrf((AbstractHttpConfigurer::disable));
         return httpSecurity.build();
