@@ -1,8 +1,10 @@
 package com.spring.demo.controller;
 
+import com.spring.demo.model.dto.ApiResponse;
 import com.spring.demo.model.dto.PostDTO;
 import com.spring.demo.model.request.PostRequest;
 import com.spring.demo.service.PostService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +20,13 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-//    @PostMapping("/{userId}/post-create")
-//     ApiResponse<PostDTO> createPost(@RequestBody @Valid PostRequest postRequest, @PathVariable("userId") Long userId){
-//
-//        ApiResponse apiResponse = new ApiResponse<>();
-//        apiResponse.setData(postService.createPost(postRequest, userId));
-//        return apiResponse ;
-//    }
+    @PostMapping("/{userId}/post-create")
+    ApiResponse<PostDTO> createPost(@RequestBody @Valid PostRequest postRequest, @PathVariable("userId") Long userId){
+
+        ApiResponse apiResponse = new ApiResponse<>();
+        apiResponse.setData(postService.createPost(postRequest, userId));
+        return apiResponse ;
+    }
 
 
     @GetMapping("/post/{id}")
