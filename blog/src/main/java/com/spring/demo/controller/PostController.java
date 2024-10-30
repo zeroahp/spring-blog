@@ -53,9 +53,9 @@ public class PostController {
         return  ResponseEntity.ok("Delete success");
     }
 
-//    @DeleteMapping("/delete")
-//    public ResponseEntity<String> deleteAllPost(){
-//        postService.deleteAllPost();
-//        return  ResponseEntity.ok("delete succsess");
-//    }
+    @DeleteMapping("/post/delete-all")
+    public ResponseEntity<String> deleteAllPost(){
+        postService.deleteAllPost();
+        return  ResponseEntity.ok("Delete succsess");
+    }
 }

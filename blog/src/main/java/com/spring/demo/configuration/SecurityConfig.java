@@ -21,15 +21,20 @@ public class SecurityConfig
 {
     private final String[] GET_PUBLIC_ENDPOINT = {"/api/post/**"};
     private final String[] POST_PUBLIC_ENDPOINT = {"/api/register", "/auth/log-in", "/auth/introspect"};
+    private final String[] DELETE_PUBLIC_ENDPOINT = {"/post/delete-all"};
+
 
     @Value("${spring.jwt.signerkey}")
     protected String SIGNER_KEY;
 
     @Bean //gọi phương thức khi ứng dụng khởi động và quản lý đối tượng trả về.
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
-                .requestMatchers(HttpMethod.GET, GET_PUBLIC_ENDPOINT).permitAll()
-                .anyRequest().authenticated());
+//        httpSecurity.authorizeHttpRequests(request -> request.requestMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
+//                .requestMatchers(HttpMethod.GET, GET_PUBLIC_ENDPOINT).permitAll()
+//                .requestMatchers(HttpMethod.DELETE, DELETE_PUBLIC_ENDPOINT).permitAll()
+//                .anyRequest().authenticated());
+
+        httpSecurity.authorizeHttpRequests(request -> request.anyRequest().permitAll());
 
         //Allow access when a valid token is provided.
         //when get "/api/user/2"

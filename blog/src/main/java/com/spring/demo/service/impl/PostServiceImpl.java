@@ -94,11 +94,18 @@ public class PostServiceImpl implements PostService {
         if(postRepository.findById(id).isPresent()){
             postRepository.deleteById(id);
         }else {
-            throw new RuntimeException(id + "This does not exists");
+            throw new RuntimeException(id + "Post does not exists");
         }
     }
 
-
+    @Override
+    public void deleteAllPost() {
+        if(postRepository.count() != 0){
+            postRepository.deleteAll();
+        }else {
+            throw new RuntimeException(postRepository.count() + "Post does not exists");
+        }
+    }
 
 
 }

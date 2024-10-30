@@ -6,6 +6,7 @@ import com.spring.demo.model.request.UserRequest;
 import com.spring.demo.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -31,6 +32,10 @@ public class UserController {
         return apiResponse;
     }
 
-
+    @DeleteMapping("/user/delete-all")
+    ResponseEntity<String> deleteAll(){
+        userService.deleteAllUsers();
+        return ResponseEntity.ok("Deleted all users");
+    }
 
 }

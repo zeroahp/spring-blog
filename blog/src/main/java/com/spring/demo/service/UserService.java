@@ -11,6 +11,7 @@ public interface UserService {
     UserEntity loginUser(UserEntity user);
     UserDTO updateUser(Long userId, UserRequest user);
     void deleteUser(Long userId);
+    void deleteAllUsers();
     UserDTO findUserById(Long id);
     List<UserEntity> findAllUsers();
 

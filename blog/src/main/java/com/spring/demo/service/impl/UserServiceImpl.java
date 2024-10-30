@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
         }
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-//
 
         UserEntity userEntity = UserEntity.builder()
                 .username(user.getUsername())
@@ -73,6 +72,14 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
     }
 
+    @Override
+    public void deleteAllUsers() {
+        if(userRepository.count() != 0){
+            userRepository.deleteAll();
+        }else {
+            throw new RuntimeException("There is no any users in the database");
+        }
+    }
 
 
     @Override
