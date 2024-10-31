@@ -1,5 +1,4 @@
 package com.spring.demo.exception;
-import com.spring.demo.model.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;

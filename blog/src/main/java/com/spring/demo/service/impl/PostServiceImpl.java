@@ -12,10 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -32,10 +31,11 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public PostDTO createPost(PostRequest postRequest, String authorId) {
+    @Transactional
+    public PostDTO createPost(PostRequest postRequest) {
 
-        UserEntity userEntity = userRepository.findById(authorId)
-                .orElseThrow(() -> new RuntimeException(authorId + "User does not exists"));
+        UserEntity userEntity = userRepository.findById(postRequest.getUserId())
+                .orElseThrow(() -> new RuntimeException(postRequest.getUserId() + "User does not exists"));
 
         //mapping
         PostEntity postEntity = PostEntity.builder()
@@ -55,7 +55,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDTO getPost(String postId) {
+    public PostDTO getPostById(String postId) {
         PostEntity postEntity = postRepository.findById(postId)
                 .orElseThrow(() -> new RuntimeException(postId + "Post does not exists"));
 
@@ -63,23 +63,12 @@ public class PostServiceImpl implements PostService {
         return postDTO;
     }
 
-    @Override
-    public List<PostDTO> getPostByAuthorId(String authorId) {
-        if(userRepository.findById(authorId).isPresent()){
-            List<PostEntity> postEntities =  postRepository.findByAuthorId(authorId);
-            List<PostDTO> postDTOS = postMapper.toPostDTOList(postEntities);
-            return postDTOS;
-        }else {
-            throw new RuntimeException(authorId + "Author does not exists");
-        }
 
-    }
 
 
     @Override
-    public PostDTO updatePost(PostRequest postRequest, String postId, String authorId) {
+    public PostDTO updatePost(PostRequest postRequest, String postId) {
 
-        UserEntity userEntity = userRepository.findById(authorId).orElseThrow(() -> new RuntimeException(authorId + "Author does not exists"));
         PostEntity postEntity = postRepository.findById(postId).orElseThrow(() -> new RuntimeException(postId + "Post does not exists"));
 
         postEntity.setTitle(postRequest.getTitle());
@@ -91,12 +80,13 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public void detelePostById(String id) {
+    public Object detelePostById(String id) {
         if(postRepository.findById(id).isPresent()){
             postRepository.deleteById(id);
         }else {
             throw new RuntimeException(id + "Post does not exists");
         }
+        return null;
     }
 
     @Override

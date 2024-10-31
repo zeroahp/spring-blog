@@ -1,62 +1,69 @@
 package com.spring.demo.controller;
 
-import com.spring.demo.model.dto.ApiResponse;
 import com.spring.demo.model.dto.PostDTO;
 import com.spring.demo.model.request.PostRequest;
+import com.spring.demo.model.response.ResponseData;
 import com.spring.demo.service.PostService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @PropertySource("classpath:application.properties") //lay du lieu tu application.properties
-@RequestMapping("/api")
+@RequestMapping("/api/posts")
 public class PostController {
 
     @Autowired
     private PostService postService;
 
-    @PostMapping("/{userId}/post-create")
-    ApiResponse<PostDTO> createPost(@RequestBody @Valid PostRequest postRequest,
-                                    @PathVariable("userId") String userId){
-
-        ApiResponse apiResponse = new ApiResponse<>();
-        apiResponse.setData(postService.createPost(postRequest, userId));
-        return apiResponse ;
+    @PostMapping("/")
+    ResponseEntity<ResponseData> createPost(@RequestBody @Valid PostRequest postRequest){
+        PostDTO postCreated = postService.createPost(postRequest);
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(ResponseData.builder()
+                .data(postCreated)
+                .desc("Post created with id: " + postCreated.getId())
+                .build());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseData> getPostById(@PathVariable("id") String id){
+        return ResponseEntity.ok()
+            .body(ResponseData.builder()
+                .data(postService.getPostById(id))
+                .desc("Get post with id: " + id)
+                .build());
 
-    @GetMapping("/post/{id}")
-    public ResponseEntity<PostDTO> getPostById(@PathVariable("id") String id){
-        return ResponseEntity.ok(postService.getPost(id));
     }
 
-    @GetMapping("/{userId}/all-post")
-    public List<PostDTO> getPostByUserId(@PathVariable String userId){
-        return postService.getPostByAuthorId(userId);
+    @PatchMapping("/{id}")
+    public ResponseEntity<ResponseData> updatePost(@PathVariable("id") String postId,
+                              @RequestBody PostRequest postRequest){
+        return ResponseEntity.ok()
+                .body(ResponseData.builder()
+                        .data(postService.updatePost(postRequest, postId))
+                        .desc("Update post with id: " + postId)
+                        .build());
     }
 
-    @PutMapping("/{userId}/post-update/{postId}")
-    public PostDTO updatePost(@PathVariable("postId") String postId,
-                                           @PathVariable("userId") String userId
-                                            ,@RequestBody PostRequest postRequest){
-
-        return postService.updatePost(postRequest, postId, userId) ;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseData> deletePost(@PathVariable("id") String id){
+        return  ResponseEntity.ok()
+                .body(ResponseData.builder()
+                        .data(postService.detelePostById(id))
+                        .desc("Delete post with id: "+ id)
+                        .build());
     }
 
-    @DeleteMapping("/post/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable("id") String id){
-        postService.detelePostById(id);
-        return  ResponseEntity.ok("Delete success");
-    }
-
-    @DeleteMapping("/post/delete-all")
-    public ResponseEntity<String> deleteAllPost(){
+    @DeleteMapping("/")
+    public ResponseEntity<ResponseData> deleteAllPost(){
         postService.deleteAllPost();
-        return  ResponseEntity.ok("Delete succsess");
+        return ResponseEntity.ok()
+                .body(ResponseData.builder()
+                        .desc("Delete all post")
+                        .build());
     }
 }

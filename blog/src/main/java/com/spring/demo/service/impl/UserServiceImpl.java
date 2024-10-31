@@ -1,11 +1,15 @@
 package com.spring.demo.service.impl;
 
+import com.spring.demo.mapper.PostMapper;
 import com.spring.demo.mapper.UserMapper;
+import com.spring.demo.model.dto.PostDTO;
 import com.spring.demo.model.dto.UserDTO;
+import com.spring.demo.model.entity.PostEntity;
 import com.spring.demo.model.entity.UserEntity;
 import com.spring.demo.exception.AppException;
 import com.spring.demo.exception.ErrorCode;
 import com.spring.demo.model.request.UserRequest;
+import com.spring.demo.repository.PostRepository;
 import com.spring.demo.repository.UserRepository;
 import com.spring.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +26,13 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private PostMapper postMapper;
 
     @Override
     public UserDTO registerUser(UserRequest user) {
@@ -50,6 +60,17 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException(id + "This does not exists"));
 
         return userMapper.toUserDTO(userEntity);
+    }
+
+    @Override
+    public List<PostDTO> getPostByAuthorId(String authorId) {
+        if(userRepository.findById(authorId).isPresent()){
+            List<PostEntity> postEntities =  postRepository.findByAuthorId(authorId);
+            List<PostDTO> postDTOS = postMapper.toPostDTOList(postEntities);
+            return postDTOS;
+        }else {
+            throw new RuntimeException(authorId + "Author does not exists");
+        }
     }
 
 
@@ -81,10 +102,10 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
-    public List<UserEntity> findAllUsers() {
-        return List.of();
-    }
+//    @Override
+//    public List<UserDTO> findAllUsers() {
+//        return userRepository.findAll();
+//    }
 
 
     @Override

@@ -2,7 +2,6 @@ package com.spring.demo.controller;
 
 
 import com.spring.demo.model.dto.AuthenticationDTO;
-import com.spring.demo.model.dto.ApiResponse;
 import com.spring.demo.model.dto.IntrospectResponse;
 import com.spring.demo.model.request.AuthenticationRequest;
 import com.spring.demo.model.request.IntrospectRequest;
