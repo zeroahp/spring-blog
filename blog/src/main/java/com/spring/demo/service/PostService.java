@@ -8,7 +8,7 @@ public interface PostService {
 
     PostDTO createPost(PostRequest postRequest);
     PostDTO getPostById(String id);
-    Page<PostDTO> getAllPostWithPagination(int offset, int pageSize);
+    Page<PostDTO> getAllPost(int offset, int pageSize);
     PostDTO updatePost(PostRequest postRequest, String postId);
     Object detelePostById(String id);
     void deleteAllPost();

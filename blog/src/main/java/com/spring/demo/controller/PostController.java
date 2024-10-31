@@ -40,12 +40,12 @@ public class PostController {
     }
 
     @GetMapping("/{offset}/{pageSize}")
-    public ResponseEntity<ResponseData> getAllPostWithPagination(@PathVariable int offset,
-                                                                 @PathVariable int pageSize){
+    public ResponseEntity<ResponseData> getAllPost(@PathVariable int offset,
+                                                   @PathVariable int pageSize){
         return ResponseEntity.ok()
                 .body(ResponseData.builder()
                         .desc("Posts with offset: " + offset + " and page size: " + pageSize)
-                        .data(postService.getAllPostWithPagination(offset, pageSize))
+                        .data(postService.getAllPost(offset, pageSize))
                         .build());
     }
 

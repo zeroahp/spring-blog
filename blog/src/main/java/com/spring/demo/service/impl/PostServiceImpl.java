@@ -67,7 +67,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostDTO> getAllPostWithPagination(int offset, int pageSize) {
+    public Page<PostDTO> getAllPost(int offset, int pageSize) {
         Page<PostEntity> Posts = postRepository.findAll(PageRequest.of(offset,pageSize));
 
         Page<PostDTO> postDTOS = Posts.map(postMapper::toPostDTO);
