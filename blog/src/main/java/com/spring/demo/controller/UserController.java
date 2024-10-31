@@ -29,10 +29,15 @@ public class UserController {
                         .build());
     }
 
-    @GetMapping("/posts")
-    public List<PostDTO> getPostsByUserId(@PathVariable String userId){
-
-        return userService.getPostByAuthorId(userId);
+    @GetMapping("/{userId}/posts/{offset}/{pageSize}")
+    public ResponseEntity<ResponseData> getPostsByUserId(@PathVariable int offset,
+                                          @PathVariable int pageSize,
+                                          @PathVariable String userId){
+        return ResponseEntity.ok()
+                .body(ResponseData.builder()
+                        .data(userService.getPostByAuthorId(offset, pageSize, userId))
+                        .desc("Posts found with offset: " + offset + " and page size: " + pageSize + " by userId: " + userId)
+                        .build());
     }
 
     @GetMapping("/{id}")

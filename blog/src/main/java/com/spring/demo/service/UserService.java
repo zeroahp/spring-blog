@@ -4,8 +4,7 @@ import com.spring.demo.model.dto.PostDTO;
 import com.spring.demo.model.dto.UserDTO;
 import com.spring.demo.model.entity.UserEntity;
 import com.spring.demo.model.request.UserRequest;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface UserService {
     UserDTO registerUser(UserRequest user);
@@ -14,7 +13,6 @@ public interface UserService {
     void deleteUser(String userId);
     void deleteAllUsers();
     UserDTO findUserById(String id);
-//    List<UserEntity> findAllUsers();
-    List<PostDTO> getPostByAuthorId(String authorId);
+    Page<PostDTO> getPostByAuthorId(int offset, int pageSize, String authorId);
 
 }

@@ -39,6 +39,16 @@ public class PostController {
 
     }
 
+    @GetMapping("/{offset}/{pageSize}")
+    public ResponseEntity<ResponseData> getAllPostWithPagination(@PathVariable int offset,
+                                                                 @PathVariable int pageSize){
+        return ResponseEntity.ok()
+                .body(ResponseData.builder()
+                        .desc("Posts with offset: " + offset + " and page size: " + pageSize)
+                        .data(postService.getAllPostWithPagination(offset, pageSize))
+                        .build());
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<ResponseData> updatePost(@PathVariable("id") String postId,
                               @RequestBody PostRequest postRequest){

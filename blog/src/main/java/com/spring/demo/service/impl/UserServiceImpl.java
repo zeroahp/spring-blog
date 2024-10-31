@@ -13,6 +13,9 @@ import com.spring.demo.repository.PostRepository;
 import com.spring.demo.repository.UserRepository;
 import com.spring.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -63,15 +66,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<PostDTO> getPostByAuthorId(String authorId) {
-        if(userRepository.findById(authorId).isPresent()){
-            List<PostEntity> postEntities =  postRepository.findByAuthorId(authorId);
-            List<PostDTO> postDTOS = postMapper.toPostDTOList(postEntities);
-            return postDTOS;
-        }else {
-            throw new RuntimeException(authorId + "Author does not exists");
-        }
+    public Page<PostDTO> getPostByAuthorId(int offset, int pageSize, String authorId) {
+        Page<PostEntity> posts = postRepository.findByAuthor_Id(authorId, PageRequest.of(offset, pageSize));
+        Page<PostDTO> postDTOS= posts.map(postMapper::toPostDTO);
+        return postDTOS;
     }
+
+//    @Override
+//    public List<PostDTO> getPostByAuthorId(String authorId) {
+//        if(userRepository.findById(authorId).isPresent()){
+//            List<PostEntity> postEntities =  postRepository.findByAuthorId(authorId);
+//            List<PostDTO> postDTOS = postMapper.toPostDTOList(postEntities);
+//            return postDTOS;
+//        }else {
+//            throw new RuntimeException(authorId + "Author does not exists");
+//        }
+//    }
 
 
 

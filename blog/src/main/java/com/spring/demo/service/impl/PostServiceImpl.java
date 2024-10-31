@@ -11,6 +11,9 @@ import com.spring.demo.service.PostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,7 +66,20 @@ public class PostServiceImpl implements PostService {
         return postDTO;
     }
 
+    @Override
+    public Page<PostDTO> getAllPostWithPagination(int offset, int pageSize) {
+        Page<PostEntity> Posts = postRepository.findAll(PageRequest.of(offset,pageSize));
 
+        Page<PostDTO> postDTOS = Posts.map(postMapper::toPostDTO);
+        return postDTOS;
+    }
+//    @Override
+//    public Page<PostDTO> getAllPostWithPaginationAndSorting(int offset, int pageSize, String field) {
+//        Page<PostEntity> Posts = postRepository.findAll(PageRequest.of(offset,pageSize).withSort(Sort.by(field)));
+//
+//        return postMapper.toPostDTOPageList(Posts);
+//
+//    }
 
 
     @Override

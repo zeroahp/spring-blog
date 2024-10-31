@@ -1,13 +1,13 @@
 package com.spring.demo.controller;
 
 
-import com.spring.demo.model.dto.AuthenticationDTO;
-import com.spring.demo.model.dto.IntrospectResponse;
 import com.spring.demo.model.request.AuthenticationRequest;
 import com.spring.demo.model.request.IntrospectRequest;
+import com.spring.demo.model.response.ResponseData;
 import com.spring.demo.service.AuthenticationServiceImpl;
 import com.spring.demo.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,26 +24,27 @@ public class AuthenticationController {
     UserServiceImpl userServiceImpl;
 
     @PostMapping("/log-in")
-    ApiResponse<AuthenticationDTO> login(@RequestBody AuthenticationRequest authenticationRequest) {
-
-        var result = authenticationServiceImpl.authenticate(authenticationRequest);
+    ResponseEntity<ResponseData> login(@RequestBody AuthenticationRequest authenticationRequest) {
 
         //SetData
-        return ApiResponse.<AuthenticationDTO>builder()
-                .data(result)
-                .build();
+        return ResponseEntity.ok()
+                .body(ResponseData.builder()
+                        .data(authenticationServiceImpl.authenticate(authenticationRequest))
+                        .desc("Login successful")
+                        .build());
 
     }
 
     @PostMapping("/introspect")
-    ApiResponse<IntrospectResponse> introspectToken(@RequestBody IntrospectRequest request) {
+    ResponseEntity<ResponseData> introspectToken(@RequestBody IntrospectRequest request) {
 
         var result = authenticationServiceImpl.introspectToken(request);
 
-        return ApiResponse.<IntrospectResponse>builder()
-                .data(result)
-                .build();
-
+        return  ResponseEntity.ok()
+                .body(ResponseData.builder()
+                        .data(result)
+                        .desc("Introspection successful")
+                        .build());
     }
 
 

@@ -5,6 +5,7 @@ import com.spring.demo.model.entity.PostEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public interface PostMapper {
 
     @Mapping(source = "author.username", target = "authorName")
     List<PostDTO> toPostDTOList(List<PostEntity> postEntities);
+
 
 }
 
