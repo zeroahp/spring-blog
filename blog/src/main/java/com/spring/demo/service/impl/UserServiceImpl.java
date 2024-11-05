@@ -1,5 +1,6 @@
 package com.spring.demo.service.impl;
 
+import com.spring.demo.enums.Role;
 import com.spring.demo.mapper.PostMapper;
 import com.spring.demo.mapper.UserMapper;
 import com.spring.demo.model.dto.PostDTO;
@@ -7,7 +8,7 @@ import com.spring.demo.model.dto.UserDTO;
 import com.spring.demo.model.entity.PostEntity;
 import com.spring.demo.model.entity.UserEntity;
 import com.spring.demo.exception.AppException;
-import com.spring.demo.exception.ErrorCode;
+import com.spring.demo.enums.ErrorCode;
 import com.spring.demo.model.request.UserRequest;
 import com.spring.demo.repository.PostRepository;
 import com.spring.demo.repository.UserRepository;
@@ -15,12 +16,11 @@ import com.spring.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.HashSet;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -46,10 +46,14 @@ public class UserServiceImpl implements UserService {
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.AUTHOR.name());
+
         UserEntity userEntity = UserEntity.builder()
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .password(passwordEncoder.encode(user.getPassword()))
+                .roles(roles)
                 .build();
 
 
@@ -71,19 +75,6 @@ public class UserServiceImpl implements UserService {
         Page<PostDTO> postDTOS= posts.map(postMapper::toPostDTO);
         return postDTOS;
     }
-
-//    @Override
-//    public List<PostDTO> getPostByAuthorId(String authorId) {
-//        if(userRepository.findById(authorId).isPresent()){
-//            List<PostEntity> postEntities =  postRepository.findByAuthorId(authorId);
-//            List<PostDTO> postDTOS = postMapper.toPostDTOList(postEntities);
-//            return postDTOS;
-//        }else {
-//            throw new RuntimeException(authorId + "Author does not exists");
-//        }
-//    }
-
-
 
     @Override
     public UserDTO updateUser(String id, UserRequest user) {

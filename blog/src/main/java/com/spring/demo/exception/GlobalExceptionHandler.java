@@ -1,4 +1,5 @@
 package com.spring.demo.exception;
+import com.spring.demo.enums.ErrorCode;
 import com.spring.demo.model.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    //error runtime
     @ExceptionHandler(value = RuntimeException.class)
     ResponseEntity<ApiResponse> handleRuntimeException(RuntimeException exception) {
         ApiResponse apiResponse = new ApiResponse();
@@ -16,6 +18,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
+    //logic error
     @ExceptionHandler(value = AppException.class)
     ResponseEntity<ApiResponse> handleAppException(AppException exception) {
         ErrorCode errorCode = exception.getErrorCode();

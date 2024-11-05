@@ -1,5 +1,7 @@
 package com.spring.demo.exception;
 
+import com.spring.demo.enums.ErrorCode;
+
 public class AppException extends RuntimeException {
 
     private ErrorCode errorCode;

@@ -1,10 +1,12 @@
 package com.spring.demo.model.entity;
 
+import com.spring.demo.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -36,6 +38,10 @@ public class UserEntity {
 
     @Column
     String password;
+
+    @Column
+    List<Role> roles;
+
 
     @OneToMany(mappedBy = "author")
     List<PostEntity> posts;

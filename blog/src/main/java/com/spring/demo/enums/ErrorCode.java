@@ -1,4 +1,4 @@
-package com.spring.demo.exception;
+package com.spring.demo.enums;
 
 public enum ErrorCode {
     USER_EXISTED(1001, "User existed."),
