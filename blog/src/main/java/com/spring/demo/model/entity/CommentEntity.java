@@ -2,30 +2,31 @@ package com.spring.demo.model.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
-@Entity(name = "comment")
+@Entity
+@Table(name = "comment")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Setter
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+     String id;
 
-    private String content;
+     String content;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+     UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "post_id")
-    private PostEntity post;
+     PostEntity post;
 
 
 }

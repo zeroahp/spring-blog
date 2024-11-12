@@ -5,16 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
+import java.util.Set;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoleRequest{
-    int role_id;
     String role_name;
     String role_desc;
-    String user_id;
+    Set<String> user_id;
 }
 

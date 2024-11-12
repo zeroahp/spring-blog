@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -15,5 +17,5 @@ public class RoleDTO {
 
     String role_name;
     String role_desc;
-    String user_id;
+    Set<String> user_id;
 }

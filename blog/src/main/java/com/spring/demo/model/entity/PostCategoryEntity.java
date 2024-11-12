@@ -8,12 +8,14 @@ import lombok.experimental.FieldDefaults;
 import java.util.HashSet;
 import java.util.Set;
 
-@Setter
-@Getter
-@AllArgsConstructor
+@Entity
 @NoArgsConstructor
-@Entity(name = "postcategory")
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE) //gia tri private
+@Table(name = "postcategory")
 public class PostCategoryEntity {
 
     @Id
