@@ -2,6 +2,9 @@ package com.spring.demo.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Entity
 @Table(name="post")
@@ -10,20 +13,26 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PostEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+     String id;
 
     @Column
-    private String title ;
+     String title ;
 
     @Column
-    private String content ;
+     String content ;
 
     @ManyToOne
     @JoinColumn(name = "author_id")
-    private UserEntity author ;
+     UserEntity author ;
 
+    @OneToMany(mappedBy = "post")
+     List<CommentEntity> comments ;
+
+    @ManyToMany(mappedBy = "posts")
+    List<PostCategoryEntity> postCategories ;
 
 }

@@ -1,5 +1,5 @@
 package com.spring.demo.model.dto;
-import jakarta.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostDTO {
+public class CommentDTO {
 
-   private String id;
-   private String title;
-   private String content;
-   private String authorName;
+    private String id;
+    private String content;
+    private String username;
+
+    private String post_id;
 }
