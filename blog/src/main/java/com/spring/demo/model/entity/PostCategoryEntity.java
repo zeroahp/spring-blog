@@ -12,7 +12,7 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "post_category")
+@Entity(name = "postcategory")
 @FieldDefaults(level = AccessLevel.PRIVATE) //gia tri private
 public class PostCategoryEntity {
 

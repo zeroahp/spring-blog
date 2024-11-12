@@ -21,12 +21,8 @@ public class UserDTO {
     private int age;
     private String address;
     private String phoneNumber;
-    private Set<String> roles;
+
     @Email
     private String email;
-
-
-//    @Size(min = 8, message = "PASSWORD_INVALID")
-//    private String password;
 
 }
