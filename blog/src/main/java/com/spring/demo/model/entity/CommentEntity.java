@@ -16,17 +16,16 @@ import lombok.experimental.FieldDefaults;
 public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-     String id;
-
-     String content;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-     UserEntity user;
+    String id;
+    String content;
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
-     PostEntity post;
+    @JoinColumn(name = "userId")
+    UserEntity user;
+
+    @ManyToOne
+    @JoinColumn(name = "postId")
+    PostEntity post;
 
 
 }

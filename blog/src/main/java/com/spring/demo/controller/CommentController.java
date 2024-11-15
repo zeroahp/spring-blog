@@ -1,12 +1,12 @@
 package com.spring.demo.controller;
 
 
-import com.spring.demo.model.dto.CategoryDTO;
+import com.spring.demo.model.dto.CommentDTO;
 import com.spring.demo.model.dto.RoleDTO;
-import com.spring.demo.model.request.CategoryRequest;
+import com.spring.demo.model.request.CommentRequest;
 import com.spring.demo.model.request.RoleRequest;
 import com.spring.demo.model.response.ResponseData;
-import com.spring.demo.service.CategoryService;
+import com.spring.demo.service.CommentService;
 import com.spring.demo.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,21 +14,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/categories")
-public class CategoryController {
+@RequestMapping("/api/comments")
+public class CommentController {
 
     @Autowired
-    private CategoryService categoryService;
+    private CommentService commentService;
 
     @PostMapping("/")
-    ResponseEntity<ResponseData> addCategory(@RequestBody CategoryRequest categoryRequest) {
-        CategoryDTO categoryDTO = categoryService.addCategory(categoryRequest);
+    ResponseEntity<ResponseData> addComment(@RequestBody CommentRequest commentRequest) {
+        CommentDTO commentDTO = commentService.addComment(commentRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ResponseData.builder()
-                        .data(categoryDTO)
-                        .desc("Category added successfully" + categoryDTO.getCategoryId())
+                        .data(commentDTO)
+                        .desc("Comment added successfully" + commentDTO.getId())
                         .build());
     }
-
 
 }

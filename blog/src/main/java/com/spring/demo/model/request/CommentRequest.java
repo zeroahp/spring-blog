@@ -13,8 +13,8 @@ public class CommentRequest {
 
     private String id;
     private String content;
-    private String username;
-    private String post_id;
+    private String userId;
+    private String postId;
 
 }
 
