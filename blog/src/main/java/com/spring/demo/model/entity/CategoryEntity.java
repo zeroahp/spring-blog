@@ -19,16 +19,12 @@ import java.util.Set;
 public class CategoryEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    String categoryId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long categoryId;
+
     String categoryName;
 
-    @ManyToMany
-    @JoinTable(
-            name = "blog_category",
-            joinColumns = @JoinColumn(name = "categoryId"),
-            inverseJoinColumns = @JoinColumn(name = "postId")
-    )
+    @ManyToMany(mappedBy = "postCategory")
     Set<PostEntity> posts = new HashSet<>();
 
 

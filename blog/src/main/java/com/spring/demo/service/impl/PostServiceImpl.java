@@ -1,10 +1,13 @@
 package com.spring.demo.service.impl;
 
+import com.spring.demo.mapper.CategoryMapper;
 import com.spring.demo.mapper.PostMapper;
 import com.spring.demo.model.dto.PostDTO;
+import com.spring.demo.model.entity.CategoryEntity;
 import com.spring.demo.model.entity.PostEntity;
 import com.spring.demo.model.entity.UserEntity;
 import com.spring.demo.model.request.PostRequest;
+import com.spring.demo.repository.CategoryRepository;
 import com.spring.demo.repository.PostRepository;
 import com.spring.demo.repository.UserRepository;
 import com.spring.demo.service.PostService;
@@ -13,10 +16,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -30,8 +34,13 @@ public class PostServiceImpl implements PostService {
     private UserRepository userRepository;
 
     @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
     private PostMapper postMapper;
 
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     @Override
     @Transactional
@@ -40,11 +49,18 @@ public class PostServiceImpl implements PostService {
         UserEntity userEntity = userRepository.findById(postRequest.getUserId())
                 .orElseThrow(() -> new RuntimeException(postRequest.getUserId() + "User does not exists"));
 
-        //mapping
+
+        List<CategoryEntity> categories = new ArrayList<>();
+        if(postRequest.getCategoryIds() != null && !postRequest.getCategoryIds().isEmpty()){
+            categories = categoryRepository.findAllByCategoryIdIn(postRequest.getCategoryIds());
+        }
+
+        //builder postEntity
         PostEntity postEntity = PostEntity.builder()
                 .author(userEntity)
                 .title(postRequest.getTitle())
                 .content(postRequest.getContent())
+                .postCategory(categories)
                 .build();
 
         if (postRepository.count() == 0){
@@ -53,8 +69,17 @@ public class PostServiceImpl implements PostService {
 
         //update ID
         PostEntity postEntitySaved = postRepository.save(postEntity);
-        return postMapper.toPostDTO(postEntitySaved);
 
+        //builder postDTO
+        PostDTO postDTO = PostDTO.builder()
+                .id(postEntitySaved.getId())
+                .title(postEntitySaved.getTitle())
+                .content(postEntitySaved.getContent())
+                .authorName(postEntitySaved.getAuthor().getUsername())
+                .categories(categoryMapper.toListCategoryDTO(postEntitySaved.getPostCategory()))
+                .build();
+
+        return postDTO;
     }
 
     @Override

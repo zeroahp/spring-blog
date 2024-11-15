@@ -1,18 +1,18 @@
 package com.spring.demo.model.dto;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class PostDTO {
 
    private String id;
    private String title;
    private String content;
    private String authorName;
+   List<CategoryDTO> categories;
 }

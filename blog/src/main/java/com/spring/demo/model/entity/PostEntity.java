@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="post")
@@ -32,7 +34,12 @@ public class PostEntity {
     @OneToMany(mappedBy = "post")
      List<CommentEntity> comments ;
 
-    @ManyToMany(mappedBy = "posts")
-    List<CategoryEntity> postCategories ;
+    @ManyToMany
+    @JoinTable(
+            name = "post_category",
+            joinColumns = @JoinColumn(name = "postId"),
+            inverseJoinColumns = @JoinColumn(name = "categoryId")
+    )
+    List<CategoryEntity> postCategory;
 
 }

@@ -1,23 +1,29 @@
 package com.spring.demo.model.request;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PostRequest {
 
    @NotBlank(message = "User ID is mandatory")
-   private String userId;
+    String userId;
 
    @Size(min = 10, max = 60, message = "TITLE_INVALID")
-   private String title;
+    String title;
 
    @Size(min = 10, message = "CONTENT_INVALID")
-   private String content;
+    String content;
+
+   Set<Long> categoryIds;
+
+
 }
