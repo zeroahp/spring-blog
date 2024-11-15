@@ -11,8 +11,6 @@ import com.spring.demo.repository.CategoryRepository;
 import com.spring.demo.repository.PostRepository;
 import com.spring.demo.repository.UserRepository;
 import com.spring.demo.service.PostService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,7 +24,6 @@ import java.util.UUID;
 @Service
 public class PostServiceImpl implements PostService {
 
-    private static final Logger log = LoggerFactory.getLogger(PostServiceImpl.class);
     @Autowired
     private PostRepository postRepository;
 
