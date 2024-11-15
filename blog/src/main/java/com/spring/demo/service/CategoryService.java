@@ -1,11 +1,10 @@
 package com.spring.demo.service;
 
-import com.spring.demo.enums.Role;
-import com.spring.demo.model.dto.RoleDTO;
-import com.spring.demo.model.request.RoleRequest;
+import com.spring.demo.model.dto.CategoryDTO;
+import com.spring.demo.model.request.CategoryRequest;
 
 public interface CategoryService {
 
-    Role addRole(RoleRequest roleRequest);
+    CategoryDTO addCategory(CategoryRequest categoryRequest);
 
 }

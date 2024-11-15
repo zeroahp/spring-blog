@@ -21,8 +21,8 @@ public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long categoryId;
-
     String categoryName;
+    String categoryDesc;
 
     @ManyToMany(mappedBy = "postCategory")
     Set<PostEntity> posts = new HashSet<>();
