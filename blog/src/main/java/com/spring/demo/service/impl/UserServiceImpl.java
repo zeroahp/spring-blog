@@ -49,10 +49,8 @@ public class UserServiceImpl implements UserService {
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
-        var role = roleRepository.findByRoleId(user.getRoleId())
+        var role = roleRepository.findByRoleName("Author")
                 .orElseThrow(() -> new RuntimeException("This role does not exist"));
-
-
 
         UserEntity userEntity = UserEntity.builder()
                 .username(user.getUsername())
@@ -60,7 +58,6 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(user.getPassword()))
                 .role(role)
                 .build();
-
 
         UserEntity savedUserEntity = userRepository.save(userEntity);
         return userMapper.toUserDTO(savedUserEntity);

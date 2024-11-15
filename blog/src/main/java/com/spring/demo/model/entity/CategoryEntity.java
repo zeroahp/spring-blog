@@ -15,20 +15,19 @@ import java.util.Set;
 @Setter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE) //gia tri private
-@Table(name = "postcategory")
-public class PostCategoryEntity {
+@Table(name = "Category")
+public class CategoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    String id;
-
+    String categoryId;
     String categoryName;
 
     @ManyToMany
     @JoinTable(
-            name = "post_category",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "post_id")
+            name = "blog_category",
+            joinColumns = @JoinColumn(name = "categoryId"),
+            inverseJoinColumns = @JoinColumn(name = "postId")
     )
     Set<PostEntity> posts = new HashSet<>();
 

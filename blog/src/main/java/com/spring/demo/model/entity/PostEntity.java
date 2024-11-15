@@ -33,6 +33,6 @@ public class PostEntity {
      List<CommentEntity> comments ;
 
     @ManyToMany(mappedBy = "posts")
-    List<PostCategoryEntity> postCategories ;
+    List<CategoryEntity> postCategories ;
 
 }
