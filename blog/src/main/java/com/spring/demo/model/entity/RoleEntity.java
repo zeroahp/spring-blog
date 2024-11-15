@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "role")
@@ -19,15 +18,15 @@ public class RoleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int role_id;
+    Long roleId;
 
     @Column
-    String role_name;
+    String roleName ;
 
     @Column
-    String role_desc;
+    String roleDesc;
 
-    @ManyToMany(mappedBy = "roles")
-    Set<UserEntity> users = new HashSet<>();
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserEntity> users;
 
 }

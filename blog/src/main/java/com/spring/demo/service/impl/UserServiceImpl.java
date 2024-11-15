@@ -11,6 +11,7 @@ import com.spring.demo.exception.AppException;
 import com.spring.demo.enums.ErrorCode;
 import com.spring.demo.model.request.UserRequest;
 import com.spring.demo.repository.PostRepository;
+import com.spring.demo.repository.RoleRepository;
 import com.spring.demo.repository.UserRepository;
 import com.spring.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PostMapper postMapper;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public UserDTO registerUser(UserRequest user) {
@@ -46,13 +49,16 @@ public class UserServiceImpl implements UserService {
 
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.AUTHOR.name());
+        var role = roleRepository.findByRoleId(user.getRoleId())
+                .orElseThrow(() -> new RuntimeException("This role does not exist"));
+
+
 
         UserEntity userEntity = UserEntity.builder()
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .password(passwordEncoder.encode(user.getPassword()))
+                .role(role)
                 .build();
 
 

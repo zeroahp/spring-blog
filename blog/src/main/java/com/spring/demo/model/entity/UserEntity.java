@@ -44,13 +44,9 @@ public class UserEntity {
     @OneToMany(mappedBy = "author")
     List<PostEntity> posts;
 
-    @ManyToMany
-    @JoinTable(
-            name = "User_Role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    Set<RoleEntity> roles = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    RoleEntity role ;
 
     @OneToMany(mappedBy = "user")
     List<CommentEntity> comments;

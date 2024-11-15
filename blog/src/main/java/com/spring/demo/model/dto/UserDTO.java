@@ -2,10 +2,8 @@ package com.spring.demo.model.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.Set;
 
@@ -14,15 +12,17 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDTO {
-    private String id;
+     String id;
 
-    private String username;
-    private int age;
-    private String address;
-    private String phoneNumber;
+     String username;
+     int age;
+     String address;
+     String phoneNumber;
 
     @Email
-    private String email;
+     String email;
+    Long role;
 
 }

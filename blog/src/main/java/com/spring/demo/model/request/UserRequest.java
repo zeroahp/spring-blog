@@ -2,31 +2,34 @@ package com.spring.demo.model.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserRequest {
-    private String id;
+     String id;
 
     @Size(min = 6, message = "USERNAME_INVALID")
-    private String username;
-    private int age;
-    private String address;
+     String username;
+     int age;
+     String address;
 
     @Size(min = 10, max = 10, message = "PHONE_NUMBER_INVALID" )
-    private String phoneNumber;
+     String phoneNumber;
 
     @Email
-    private String email;
+     String email;
 
     @Size(min = 8, message = "PASSWORD_INVALID")
-    private String password;
+     String password;
+
+    Long roleId;
+
+
 
 }

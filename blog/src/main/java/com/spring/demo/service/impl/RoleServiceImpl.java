@@ -42,8 +42,8 @@ public class RoleServiceImpl implements RoleService {
     public RoleDTO addRole(RoleRequest roleRequest) {
 
         RoleEntity roleEntity = RoleEntity.builder()
-                .role_name(roleRequest.getRole_name())
-                .role_desc(roleRequest.getRole_desc())
+                .roleName(roleRequest.getRoleName())
+                .roleDesc(roleRequest.getRoleDesc())
                 .build();
 
         RoleEntity newRole = roleRepository.save(roleEntity);

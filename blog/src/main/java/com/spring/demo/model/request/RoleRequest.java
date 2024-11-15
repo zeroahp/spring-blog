@@ -12,8 +12,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoleRequest{
-    String role_name;
-    String role_desc;
-    Set<String> user_id;
+    String roleName;
+    String roleDesc;
 }
 
