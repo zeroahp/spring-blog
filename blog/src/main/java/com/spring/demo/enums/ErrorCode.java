@@ -11,7 +11,8 @@ public enum ErrorCode {
     TITLE_INVALID(1005, "Title must be at least 10 characters.", HttpStatus.BAD_REQUEST),
     CONTENT_INVALID(1006, "Content must be at least 10 characters.", HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTED(1007, "User not existed.", HttpStatus.NOT_FOUND),
-    UNAUTHENTICATED(1008, "Unauthenticated.", HttpStatus.UNAUTHORIZED)
+    UNAUTHENTICATED(1008, "Unauthenticated.", HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED(1009, "You do not have permission.", HttpStatus.FORBIDDEN)
     ;
     private int code;
     private String message;
