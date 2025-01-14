@@ -28,8 +28,6 @@ public class AuthenticationServiceImpl {
     @Autowired
     JWTNimbusd jwtNimbusd;
 
-
-
     public AuthenticationDTO authenticate(AuthenticationRequest userRequest) {
         var user =  userRepository.findByUsername(userRequest.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -40,7 +38,8 @@ public class AuthenticationServiceImpl {
         if(!result)
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        var token = jwtNimbusd.generateToken(userRequest.getUsername());
+        //utils jwtNimbusd.generateToken(user);
+        var token = jwtNimbusd.generateToken(user);
 
         return  AuthenticationDTO.builder()
                                 .authenticated(true)

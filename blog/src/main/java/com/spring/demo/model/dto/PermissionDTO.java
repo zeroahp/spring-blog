@@ -5,16 +5,14 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
-import java.util.Set;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RoleDTO {
-    Long roleId;
-    String roleName;
-    String roleDesc;
-    Set<String> permissionName;
+public class PermissionDTO {
+    Long permissionId;
+    String permissionName;
+    String permissionDesc;
 }

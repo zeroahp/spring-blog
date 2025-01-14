@@ -14,31 +14,36 @@ import com.spring.demo.repository.PostRepository;
 import com.spring.demo.repository.RoleRepository;
 import com.spring.demo.repository.UserRepository;
 import com.spring.demo.service.UserService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
+    PostRepository postRepository;
+    UserMapper userMapper;
+    PostMapper postMapper;
+    RoleRepository roleRepository;
 
-    @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private PostMapper postMapper;
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Override
     public UserDTO registerUser(UserRequest user) {
@@ -47,18 +52,20 @@ public class UserServiceImpl implements UserService {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
 
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.AUTHOR.name());
+
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
-        var role = roleRepository.findByRoleName("Author")
-                .orElseThrow(() -> new RuntimeException("This role does not exist"));
+//        var role = roleRepository.findByRoleName("Author")
+//                .orElseThrow(() -> new RuntimeException("This role does not exist"));
 
         UserEntity userEntity = UserEntity.builder()
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .password(passwordEncoder.encode(user.getPassword()))
-                .role(role)
                 .build();
-
+//        userEntity.setRoles(roles);
         UserEntity savedUserEntity = userRepository.save(userEntity);
         return userMapper.toUserDTO(savedUserEntity);
     }
@@ -104,11 +111,24 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public List<UserDTO> findAllUsers() {
+        log.info("In method get Users");
+        return userMapper.toUserDTOList(userRepository.findAll());
+    }
 
-//    @Override
-//    public List<UserDTO> findAllUsers() {
-//        return userRepository.findAll();
-//    }
+    @Override
+    public UserDTO getMyInfo() { //dang login
+        var context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+
+        log.info("User: {}",username);
+        log.info("Role: {}", context.getAuthentication().getAuthorities());
+        UserEntity user  = userRepository.findByUsername(username).orElseThrow(
+                () -> new AppException(ErrorCode.USER_NOT_EXISTED)
+        );
+        return userMapper.toUserDTO(user);
+    }
 
 
     @Override

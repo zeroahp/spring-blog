@@ -11,7 +11,9 @@ import com.spring.demo.repository.CategoryRepository;
 import com.spring.demo.repository.PostRepository;
 import com.spring.demo.repository.UserRepository;
 import com.spring.demo.service.PostService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -22,22 +24,15 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PostServiceImpl implements PostService {
 
-    @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    private PostMapper postMapper;
-
-    @Autowired
-    private CategoryMapper categoryMapper;
+    PostRepository postRepository;
+    UserRepository userRepository;
+    CategoryRepository categoryRepository;
+    PostMapper postMapper;
+    CategoryMapper categoryMapper;
 
     @Override
     @Transactional

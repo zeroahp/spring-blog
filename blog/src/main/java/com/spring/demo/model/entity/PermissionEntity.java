@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "permission")
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -12,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Permission {
+public class PermissionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +26,8 @@ public class Permission {
 
     @Column
     String permissionDesc;
+
+    @ManyToMany(mappedBy = "rolePermission")
+    Set<RoleEntity> role ;
+
 }

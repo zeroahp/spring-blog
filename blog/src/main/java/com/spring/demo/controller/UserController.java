@@ -4,11 +4,14 @@ import com.spring.demo.model.request.UserRequest;
 import com.spring.demo.model.response.ResponseData;
 import com.spring.demo.service.UserService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -43,8 +46,33 @@ public class UserController {
         return ResponseEntity.ok()
                 .body(ResponseData.builder()
                     .data(userService.findUserById(id))
-                    .desc("User registered successfully!" )
+                    .desc("Get user successfully!" )
                     .build());
+    }
+
+    @GetMapping("/")
+    ResponseEntity<ResponseData> getAllUsers(){
+
+        //User dang login
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("Username: {}",authentication.getName());
+        authentication.getAuthorities().forEach(grantedAuthority -> log.info("GrantedAuthority: {}", grantedAuthority));
+
+        return ResponseEntity.ok()
+                .body(ResponseData.builder()
+                        .data(userService.findAllUsers())
+                        .desc("All users found!" )
+                        .build());
+    }
+
+    @GetMapping("/my-info")
+    ResponseEntity<ResponseData> getMyInfo(){
+        return ResponseEntity.ok()
+                .body(ResponseData.builder()
+                        .data(userService.getMyInfo())
+                        .desc("My infor")
+                        .build()
+                );
     }
 
     @DeleteMapping("/")

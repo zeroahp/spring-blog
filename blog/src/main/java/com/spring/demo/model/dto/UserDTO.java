@@ -21,6 +21,5 @@ public class UserDTO {
      String phoneNumber;
     @Email
      String email;
-     String roleName;
-
+     Set<String> roleName;
 }

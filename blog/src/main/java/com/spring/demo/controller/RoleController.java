@@ -28,9 +28,12 @@ public class RoleController {
     }
 
     @GetMapping("/")
-    ResponseEntity<String> getRoles() {
-        return  ResponseEntity.ok("ok");
+    ResponseEntity<ResponseData> getAllRoles() {
+        return ResponseEntity.ok()
+                .body(ResponseData.builder()
+                        .data(roleService.getAllRoles())
+                        .desc("All roles found!" )
+                        .build());
     }
-
 
 }

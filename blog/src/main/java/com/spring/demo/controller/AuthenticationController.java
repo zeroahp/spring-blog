@@ -35,6 +35,8 @@ public class AuthenticationController {
 
     }
 
+
+    //verified (expire, key,..)
     @PostMapping("/introspect")
     ResponseEntity<ResponseData> introspectToken(@RequestBody IntrospectRequest request) {
 

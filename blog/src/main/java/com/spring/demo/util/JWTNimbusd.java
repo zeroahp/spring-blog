@@ -6,16 +6,23 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import com.spring.demo.model.dto.IntrospectResponse;
+import com.spring.demo.model.entity.UserEntity;
 import com.spring.demo.model.request.IntrospectRequest;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.StringJoiner;
 
 @Slf4j
 @Component
@@ -26,18 +33,18 @@ public class JWTNimbusd
     protected String SIGNER_KEY;
 
 
-    public String generateToken(String username){
+    public String generateToken(UserEntity userEntity){
 
         //header
         JWSHeader jwsHeader = new JWSHeader(JWSAlgorithm.HS512);
 
         //claim
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(username)
+                .subject(userEntity.getUsername())
                 .issuer("ahpzero")
                 .issueTime(new Date())
                 .expirationTime(new Date(Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
-                .claim("customClaim", "Custom Claim")
+                .claim("scope", builScope(userEntity))
                 .build();
 
         //payload
@@ -55,6 +62,16 @@ public class JWTNimbusd
             log.error("Cannot create token", e);
             throw new RuntimeException(e);
         }
+    }
+
+    //SCOPE
+    private String builScope(UserEntity userEntity){
+        StringJoiner stringJoiner = new StringJoiner(" ");
+//        if(!CollectionUtils.isEmpty(userEntity.getRoles())){
+//            userEntity.getRoles().forEach(stringJoiner::add);
+//        }
+
+        return stringJoiner.toString();
     }
 
     public IntrospectResponse introspectToken(IntrospectRequest request)
@@ -77,6 +94,9 @@ public class JWTNimbusd
                 .valid(verified && expirationTime.after(new Date()))
                 .build();
 
-
     }
+
+
+
+
 }

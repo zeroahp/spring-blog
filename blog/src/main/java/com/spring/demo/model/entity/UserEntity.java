@@ -1,10 +1,13 @@
 package com.spring.demo.model.entity;
 
+import com.spring.demo.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -37,14 +40,26 @@ public class UserEntity {
     @Column
     String password;
 
-    @OneToMany(mappedBy = "author")
-    List<PostEntity> posts;
+    @ManyToMany
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "roleId")
+    )
+    Set<RoleEntity> userRoles;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    RoleEntity role ;
 
-    @OneToMany(mappedBy = "user")
-    List<CommentEntity> comments;
+//    @ManyToMany
+//    Set<RoleEntity> roles;
+//
+//    @OneToMany(mappedBy = "author")
+//    List<PostEntity> posts;
+
+//    @ManyToOne
+//    @JoinColumn(name = "role_id")
+//    RoleEntity role ;
+
+//    @OneToMany(mappedBy = "user")
+//    List<CommentEntity> comments;
 
 }

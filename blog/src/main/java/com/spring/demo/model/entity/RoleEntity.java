@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "role")
@@ -26,7 +27,15 @@ public class RoleEntity {
     @Column
     String roleDesc;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserEntity> users;
+    @ManyToMany
+    @JoinTable(
+            name = "role_permission",
+            joinColumns = @JoinColumn(name = "roleId"),
+            inverseJoinColumns = @JoinColumn(name = "permissionId")
+    )
+    Set<PermissionEntity> rolePermission;
+
+    @ManyToMany(mappedBy = "userRoles")
+    List<UserEntity> users ;
 
 }
