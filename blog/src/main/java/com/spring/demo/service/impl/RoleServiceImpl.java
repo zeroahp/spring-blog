@@ -52,6 +52,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public RoleDTO addRole(RoleRequest roleRequest) {
 
+        if(roleRepository.existsByRoleName(roleRequest.getRoleName())) {
+            throw new AppException(ErrorCode.ROLE_EXISTED);
+        }
+
         RoleEntity roleEntity = RoleEntity.builder()
                 .roleName(roleRequest.getRoleName())
                 .roleDesc(roleRequest.getRoleDesc())

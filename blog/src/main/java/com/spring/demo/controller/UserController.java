@@ -84,4 +84,13 @@ public class UserController {
                     .build());
     }
 
+    @PutMapping("/{id}")
+    ResponseEntity<ResponseData> updateUser(@PathVariable String id, @RequestBody @Valid UserRequest userRequest){
+        return ResponseEntity.ok()
+                .body(ResponseData.builder()
+                        .data(userService.updateUser(id,userRequest))
+                        .desc("User updated successfully!" )
+                        .build());
+    }
+
 }

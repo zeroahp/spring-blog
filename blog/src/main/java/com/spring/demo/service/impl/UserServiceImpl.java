@@ -6,6 +6,7 @@ import com.spring.demo.mapper.UserMapper;
 import com.spring.demo.model.dto.PostDTO;
 import com.spring.demo.model.dto.UserDTO;
 import com.spring.demo.model.entity.PostEntity;
+import com.spring.demo.model.entity.RoleEntity;
 import com.spring.demo.model.entity.UserEntity;
 import com.spring.demo.exception.AppException;
 import com.spring.demo.enums.ErrorCode;
@@ -43,6 +44,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     PostMapper postMapper;
     RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -52,24 +54,39 @@ public class UserServiceImpl implements UserService {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
 
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.AUTHOR.name());
-
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
-//        var role = roleRepository.findByRoleName("Author")
-//                .orElseThrow(() -> new RuntimeException("This role does not exist"));
-
+        HashSet<String> roles = new HashSet<>();
+        roles.add(Role.AUTHOR.name());
         UserEntity userEntity = UserEntity.builder()
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .password(passwordEncoder.encode(user.getPassword()))
                 .build();
-//        userEntity.setRoles(roles);
+
+        var roleEntity = roleRepository.findByRoleNameIn(roles);
+        userEntity.setUserRoles(new HashSet<>(roleEntity));
+
         UserEntity savedUserEntity = userRepository.save(userEntity);
         return userMapper.toUserDTO(savedUserEntity);
     }
 
+    @Override
+    public UserDTO updateUser(String userId,  UserRequest user) {
+
+        UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new RuntimeException(userId + " not found"));
+
+        userEntity.setUsername(user.getUsername());
+        userEntity.setEmail(user.getEmail());
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        var role = roleRepository.findByRoleNameIn(user.getRoleName());
+        userEntity.setUserRoles(new HashSet<>(role));
+
+        userRepository.save(userEntity);
+        return  userMapper.toUserDTO(userRepository.save(userEntity));
+
+    }
     @Override
     public UserDTO findUserById(String id) {
         UserEntity userEntity = userRepository.findById(id)
@@ -83,17 +100,6 @@ public class UserServiceImpl implements UserService {
         Page<PostEntity> posts = postRepository.findByAuthor_Id(authorId, PageRequest.of(offset, pageSize));
         Page<PostDTO> postDTOS= posts.map(postMapper::toPostDTO);
         return postDTOS;
-    }
-
-    @Override
-    public UserDTO updateUser(String id, UserRequest user) {
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new RuntimeException(id + "This does not exists"));
-        userEntity.setUsername(user.getUsername());
-        userEntity.setPassword(user.getPassword());
-        userEntity.setEmail(user.getEmail());
-        userRepository.save(userEntity);
-        return  userMapper.toUserDTO(userRepository.save(userEntity));
-
     }
 
     @Override
