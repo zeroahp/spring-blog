@@ -34,10 +34,10 @@ public class ApplicationInitConfig {
 
                 HashSet<String> role = new HashSet<>();
                 role.add(Role.ADMIN.name());
-
+                var roleEntity = roleRepository.findByRoleNameIn(role);
                 UserEntity userEntity = UserEntity.builder()
                         .username("admin")
-//                         .roles(role)
+                        .userRoles(new HashSet<>(roleEntity))
                         .password(passwordEncoder.encode("admin"))
                         .build();
 
