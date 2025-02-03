@@ -22,6 +22,8 @@ import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringJoiner;
 
 @Slf4j
@@ -66,12 +68,17 @@ public class JWTNimbusd
 
     //SCOPE
     private String builScope(UserEntity userEntity){
-        StringJoiner stringJoiner = new StringJoiner(" ");
-//        if(!CollectionUtils.isEmpty(userEntity.getRoles())){
-//            userEntity.getRoles().forEach(stringJoiner::add);
-//        }
-
-        return stringJoiner.toString();
+        Set<String> scopeSet = new HashSet<>();
+        if(!CollectionUtils.isEmpty(userEntity.getUserRoles())){
+            userEntity.getUserRoles().forEach(role -> {
+                scopeSet.add(role.getRoleName());
+                if(!CollectionUtils.isEmpty(role.getRolePermission())){
+                    role.getRolePermission()
+                            .forEach(permission -> scopeSet.add(permission.getPermissionName()));
+                }
+            });
+        }
+        return String.join(" ", scopeSet);
     }
 
     public IntrospectResponse introspectToken(IntrospectRequest request)
