@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -45,16 +46,9 @@ public class UserEntity {
     )
     Set<RoleEntity> userRoles;
 
+    @OneToMany(mappedBy = "author")
+    List<PostEntity> posts;
 
-//    @ManyToMany
-//    Set<RoleEntity> roles;
-//
-//    @OneToMany(mappedBy = "author")
-//    List<PostEntity> posts;
-
-//    @ManyToOne
-//    @JoinColumn(name = "role_id")
-//    RoleEntity role ;
 
 //    @OneToMany(mappedBy = "user")
 //    List<CommentEntity> comments;

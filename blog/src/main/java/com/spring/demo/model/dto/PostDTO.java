@@ -10,7 +10,6 @@ import java.util.List;
 @Builder
 public class PostDTO {
 
-   private String id;
    private String title;
    private String content;
    private String authorName;

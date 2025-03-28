@@ -28,7 +28,7 @@ public class PermisstionController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ResponseData.builder()
                         .data(permissionDTO)
-                        .desc("Permission created successfully" + permissionDTO.getPermissionId())
+                        .desc("Permission created successfully" )
                         .build());
     }
 

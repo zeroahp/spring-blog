@@ -13,7 +13,6 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class CategoryDTO {
-    Long categoryId;
     String categoryName;
     String categoryDesc;
     Set<PostDTO> listPost;

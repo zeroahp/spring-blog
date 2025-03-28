@@ -8,6 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class ResponseData {
+    private String code;
+
     private String desc;
+
     private Object data;
 }

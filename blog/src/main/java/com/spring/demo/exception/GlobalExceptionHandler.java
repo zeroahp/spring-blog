@@ -1,8 +1,10 @@
 package com.spring.demo.exception;
 import com.spring.demo.enums.ErrorCode;
 import com.spring.demo.model.dto.ApiResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,7 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     //error runtime
-    @ExceptionHandler(value = RuntimeException.class)
+    @ExceptionHandler(value = Exception.class)
     ResponseEntity<ApiResponse> handleRuntimeException(RuntimeException exception) {
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setCode(500);
@@ -29,6 +31,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
+    //Error 403
+    @ExceptionHandler(value = AccessDeniedException.class)
+    ResponseEntity<ApiResponse> handleAccessDeniedException(AccessDeniedException exception) {
+        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
+        return ResponseEntity.status(errorCode.getStatusCode()).body(
+                ApiResponse.builder()
+                        .code(errorCode.getCode())
+                        .msg(errorCode.getMessage())
+                        .build()
+        );
+    }
+
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     ResponseEntity<ApiResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         //Phương thức này lấy thông điệp lỗi mặc định từ ngoại lệ, là chuỗi được xác
@@ -44,17 +58,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
-    //Error 403
-    @ExceptionHandler(value = AccessDeniedException.class)
-    ResponseEntity<ApiResponse> handleAccessDeniedException(AccessDeniedException exception) {
-        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
-        return ResponseEntity.status(errorCode.getStatusCode()).body(
-                ApiResponse.builder()
-                        .code(errorCode.getCode())
-                        .msg(errorCode.getMessage())
-                        .build()
-        );
-    }
 }
 
 

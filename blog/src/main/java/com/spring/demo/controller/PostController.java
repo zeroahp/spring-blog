@@ -25,7 +25,7 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ResponseData.builder()
                 .data(postCreated)
-                .desc("Post created with id: " + postCreated.getId())
+                .desc("Post created with id: " )
                 .build());
     }
 

@@ -26,7 +26,7 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ResponseData.builder()
                         .data(categoryDTO)
-                        .desc("Category added successfully" + categoryDTO.getCategoryId())
+                        .desc("Category added successfully" )
                         .build());
     }
 

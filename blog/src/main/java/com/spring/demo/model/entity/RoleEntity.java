@@ -35,7 +35,4 @@ public class RoleEntity {
     )
     Set<PermissionEntity> rolePermission;
 
-    @ManyToMany(mappedBy = "userRoles")
-    List<UserEntity> users ;
-
 }

@@ -2,6 +2,7 @@ package com.spring.demo.configuration;
 
 
 import com.spring.demo.enums.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,24 +35,23 @@ public class SecurityConfig
     @Value("${spring.jwt.signerkey}")
     protected String SIGNER_KEY;
 
+    @Autowired
+    CustomJwtDecoder customJwtDecoder;
+
     //gọi phương thức khi ứng dụng khởi động và quản lý đối tượng trả về.
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(request -> request
-                //admin
                 .requestMatchers(HttpMethod.GET, GET_PUBLIC_ENDPOINT).hasRole(Role.ADMIN.name())
-
-                //everyone
-//                .requestMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
-//                .requestMatchers(HttpMethod.DELETE, DELETE_PUBLIC_ENDPOINT).permitAll()
-                .anyRequest().permitAll());
-//                .anyRequest().authenticated());
+                .requestMatchers(HttpMethod.POST, POST_PUBLIC_ENDPOINT).permitAll()
+                .requestMatchers(HttpMethod.DELETE, DELETE_PUBLIC_ENDPOINT).permitAll()
+                .anyRequest().authenticated());
 
         //Allow access when a valid token is provided.
         //when get "/api/user/2"
         httpSecurity.oauth2ResourceServer(oauth2 -> oauth2
                 .jwt(jwtConfigurer -> jwtConfigurer
-                        .decoder(jwtDecoder())
+                        .decoder(customJwtDecoder)
                         .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
         );
@@ -67,21 +67,12 @@ public class SecurityConfig
     JwtAuthenticationConverter jwtAuthenticationConverter(){
         //Sử dụng GrantedAuthority để kiểm soát truy cập (authorization).
         JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
+
+        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("");//builScope has ROLE_
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
         return jwtAuthenticationConverter;
-    }
-
-
-    @Bean
-    JwtDecoder jwtDecoder(){
-        SecretKeySpec secretKeySpec = new SecretKeySpec(SIGNER_KEY.getBytes(), "HS512");
-        return NimbusJwtDecoder
-                .withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
     }
 
     @Bean

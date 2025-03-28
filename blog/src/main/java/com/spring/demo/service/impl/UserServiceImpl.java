@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
     PostMapper postMapper;
     RoleRepository roleRepository;
-    private final PasswordEncoder passwordEncoder;
+    final PasswordEncoder passwordEncoder;
 
 
     @Override
@@ -53,8 +53,6 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsByUsername(user.getUsername())){
             throw new AppException(ErrorCode.USER_EXISTED);
         }
-
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
         HashSet<String> roles = new HashSet<>();
         roles.add(Role.AUTHOR.name());
@@ -85,8 +83,9 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(userEntity);
         return  userMapper.toUserDTO(userRepository.save(userEntity));
-
     }
+
+
     @Override
     public UserDTO findUserById(String id) {
         UserEntity userEntity = userRepository.findById(id)

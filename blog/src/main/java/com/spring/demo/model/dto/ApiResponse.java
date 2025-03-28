@@ -7,6 +7,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+//@JsonInclude(JsonInclude.Include.NON_NULL) //eliminate null
 public class ApiResponse<T> {
     private int code;
     private String msg;

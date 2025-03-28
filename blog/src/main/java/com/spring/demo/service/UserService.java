@@ -23,8 +23,6 @@ public interface UserService {
     @PreAuthorize("hasRole('ADMIN')") //returnObject.username == authentication.name
     List<UserDTO> findAllUsers();
 
-    @PostAuthorize("returnObject.username == authentication.name")
+    @PostAuthorize("returnObject.username == authentication.name") // Authentication từ SecurityContextHolder.
     UserDTO getMyInfo();
-
-
 }

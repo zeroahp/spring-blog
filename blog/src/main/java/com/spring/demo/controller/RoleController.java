@@ -23,7 +23,7 @@ public class RoleController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ResponseData.builder()
                         .data(roleDTO)
-                        .desc("Role added successfully" + roleDTO.getRoleId())
+                        .desc("Role added successfully" )
                         .build());
     }
 

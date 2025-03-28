@@ -13,12 +13,11 @@ import java.util.Set;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDTO {
-     String id;
      String username;
      int age;
      String address;
      String phoneNumber;
     @Email
      String email;
-     Set<String> roleName;
+    Set<RoleDTO> roles;
 }

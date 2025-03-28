@@ -31,7 +31,4 @@ public class UserRequest {
      String password;
 
     List<String> roleName;
-
-
-
 }

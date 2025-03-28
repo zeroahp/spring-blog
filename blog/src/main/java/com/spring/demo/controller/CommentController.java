@@ -26,7 +26,7 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ResponseData.builder()
                         .data(commentDTO)
-                        .desc("Comment added successfully" + commentDTO.getId())
+                        .desc("Comment added successfully")
                         .build());
     }
 

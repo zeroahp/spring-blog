@@ -11,6 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class IntrospectRequest { //Verified token
-
     private String token;
 }

@@ -64,7 +64,6 @@ public class PostServiceImpl implements PostService {
 
         //builder postDTO
         PostDTO postDTO = PostDTO.builder()
-                .id(postEntitySaved.getId())
                 .title(postEntitySaved.getTitle())
                 .content(postEntitySaved.getContent())
                 .authorName(postEntitySaved.getAuthor().getUsername())

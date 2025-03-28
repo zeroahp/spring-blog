@@ -13,7 +13,8 @@ public enum ErrorCode {
     USER_NOT_EXISTED(1007, "User not existed.", HttpStatus.NOT_FOUND),
     UNAUTHENTICATED(1008, "Unauthenticated.", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1009, "You do not have permission.", HttpStatus.FORBIDDEN),
-    ROLE_EXISTED(1001, "Role existed.", HttpStatus.INTERNAL_SERVER_ERROR);
+    ROLE_EXISTED(1001, "Role existed.", HttpStatus.INTERNAL_SERVER_ERROR),
+    INVALID_TOKEN(1010, "Invalid token", HttpStatus.BAD_REQUEST);
     private int code;
     private String message;
     private HttpStatusCode statusCode;
@@ -27,7 +28,6 @@ public enum ErrorCode {
     public int getCode() {
         return code;
     }
-
     public String getMessage() {
         return message;
     }
